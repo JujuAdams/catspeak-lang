@@ -1,0 +1,1 @@
+#macro CATSPEAK_NAKED_GLOBAL  false

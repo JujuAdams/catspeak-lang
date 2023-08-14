@@ -14,6 +14,7 @@
     {"id":{"name":"scr_testing_lexer_config","path":"scripts/scr_testing_lexer_config/scr_testing_lexer_config.yy",},"order":1,},
     {"id":{"name":"rm_testing","path":"rooms/rm_testing/rm_testing.yy",},"order":3,},
     {"id":{"name":"scr_catspeak_alloc","path":"scripts/scr_catspeak_alloc/scr_catspeak_alloc.yy",},"order":0,},
+    {"id":{"name":"scr_catspeak_config","path":"scripts/scr_catspeak_config/scr_catspeak_config.yy",},"order":7,},
     {"id":{"name":"scr_catspeak_init","path":"scripts/scr_catspeak_init/scr_catspeak_init.yy",},"order":4,},
     {"id":{"name":"scr_testing_lexer_ident","path":"scripts/scr_testing_lexer_ident/scr_testing_lexer_ident.yy",},"order":2,},
     {"id":{"name":"scr_testing_lexer_whitespace","path":"scripts/scr_testing_lexer_whitespace/scr_testing_lexer_whitespace.yy",},"order":10,},

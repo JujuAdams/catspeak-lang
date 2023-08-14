@@ -59,10 +59,19 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
     }
     self.interface = interface ?? { };
     self.functions = asg.functions;
-    self.sharedData = {
-        globals : { },
-        self_ : undefined,
-    };
+    
+    if (CATSPEAK_NAKED_GLOBAL) {
+        self.sharedData = {
+            globals : { },
+            self_ : undefined,
+        };
+    } else {
+        self.sharedData = {
+            globals : undefined,
+            self_ : { },
+        };
+    }
+    
     //# feather disable once GM2043
     self.program = __compileFunctions(asg.entryPoints);
     self.finalised = false;
@@ -117,14 +126,25 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
     };
 
     static __setupCatspeakFunctionMethods = function (f) {
-        f.setSelf = method(sharedData, function (selfInst) {
-            self_ = catspeak_special_to_struct(selfInst);
-        });
-        f.setGlobals = method(sharedData, function (globalInst) {
-            globals = catspeak_special_to_struct(globalInst);
-        });
-        f.getSelf = method(sharedData, function () { return self_ ?? globals });
-        f.getGlobals = method(sharedData, function () { return globals });
+        if (CATSPEAK_NAKED_GLOBAL) {
+            f.setSelf = method(sharedData, function (selfInst) {
+                self_ = catspeak_special_to_struct(selfInst);
+            });
+            f.setGlobals = method(sharedData, function (globalInst) {
+                globals = catspeak_special_to_struct(globalInst);
+            });
+            f.getSelf = method(sharedData, function () { return self_ ?? globals });
+            f.getGlobals = method(sharedData, function () { return globals });
+        } else {
+            f.setGlobals = method(sharedData, function (selfInst) {
+                self_ = catspeak_special_to_struct(selfInst);
+            });
+            f.setSelf = method(sharedData, function (globalInst) {
+                globals = catspeak_special_to_struct(globalInst);
+            });
+            f.getGlobals = method(sharedData, function () { return self_ });
+            f.getSelf = method(sharedData, function () { return globals ?? self_ });
+        }
     };
 
     /// @ignore
@@ -1075,7 +1095,7 @@ function __catspeak_expr_call__() {
         }
     }
     var shared_ = shared;
-    with (method_get_self(callee_) ?? (shared_.self_ ?? shared_.globals)) {
+    with (method_get_self(callee_) ?? (shared_.globals ?? shared_.self_)) {
         var calleeIdx = method_get_index(callee_);
         return script_execute_ext(calleeIdx, args_);
     }
@@ -1235,40 +1255,44 @@ function __catspeak_expr_property_set_plus__() {
     return property_(property_() + value_);
 }
 
+function __catspeak_expr_global_resolve__() {
+    return (shared.globals ?? shared.self_);
+}
+
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_get__() {
-    return shared.globals[$ name];
+    return __catspeak_expr_global_resolve__()[$ name];
 }
 
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_set__() {
-    shared.globals[$ name] = value();
+    __catspeak_expr_global_resolve__()[$ name] = value();
 }
 
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_set_mult__() {
-    shared.globals[$ name] *= value();
+    __catspeak_expr_global_resolve__()[$ name] *= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_set_div__() {
-    shared.globals[$ name] /= value();
+    __catspeak_expr_global_resolve__()[$ name] /= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_set_sub__() {
-    shared.globals[$ name] -= value();
+    __catspeak_expr_global_resolve__()[$ name] -= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_set_plus__() {
-    shared.globals[$ name] += value();
+    __catspeak_expr_global_resolve__()[$ name] += value();
 }
 
 /// @ignore
@@ -1312,7 +1336,7 @@ function __catspeak_expr_local_set_plus__() {
 function __catspeak_expr_self__() {
     // will either access a user-defined self instance, or the internal
     // global struct
-    return self_ ?? globals;
+    return self_;
 }
 
 /// @ignore
