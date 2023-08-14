@@ -608,7 +608,7 @@ function CatspeakParser(lexer, builder) constructor {
         } else if (peeked == CatspeakToken.SEMICOLON) {
             return "line break ';'";
         }
-        return "token '" + lexer.getLexeme() + "' (" + string() + ")";
+        return "token '" + lexer.getLexeme() + "' (" + string(peeked) + ")";
     };
 
     /// @ignore
