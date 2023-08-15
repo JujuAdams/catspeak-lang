@@ -436,7 +436,7 @@ function CatspeakParser(lexer, builder) constructor {
             var op = __catspeak_operator_from_token(peeked);
             var value = __parseIndex();
             return asg.createUnary(op, value, lexer.getLocation());
-        } else if (peeked == CatspeakToken.COLON) {
+        } else if (peeked == CatspeakToken.AT) {
             // `:property` syntax
             lexer.next();
             return asg.createProperty(__parseTerminal(), lexer.getLocation());

@@ -28,6 +28,8 @@ enum CatspeakToken {
     BRACE_RIGHT,
     /// The `:` character.
     COLON,
+    /// The `@` character.
+    AT,
     /// Represents a sequence of `;` characters.
     SEMICOLON,
     /// The `,` character.
@@ -755,6 +757,7 @@ function __catspeak_keywords_create() {
     keywords[$ ";"] = CatspeakToken.SEMICOLON;
     keywords[$ "..."] = CatspeakToken.WHITESPACE; // legacy
     keywords[$ ":"] = CatspeakToken.COLON;
+    keywords[$ "@"] = CatspeakToken.AT;
     keywords[$ ","] = CatspeakToken.COMMA;
     keywords[$ "."] = CatspeakToken.DOT;
     keywords[$ "="] = CatspeakToken.ASSIGN;
