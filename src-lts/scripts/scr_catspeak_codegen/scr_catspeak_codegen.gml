@@ -1350,9 +1350,9 @@ function __catspeak_expr_use__() {
     }
     var result;
     try {
-        result = body_();
+        body_();
     } finally {
-        close();
+        result = close();
     }
     return result;
 }
