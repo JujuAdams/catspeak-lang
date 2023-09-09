@@ -323,13 +323,17 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
     }
     self.interface = interface;
     self.functions = asg.functions;
+    
     self.sharedData = {
         globals : { },
         self_ : undefined,
+        selfStack : [undefined],
     };
+    
     //# feather disable once GM2043
     self.program = __compileFunctions(asg.entryPoints);
     self.finalised = false;
+    self.sharedData.selfOriginal = self.sharedData.self_;
 
     /// @ignore
     ///
@@ -401,8 +405,24 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
     };
 
     static __setupCatspeakFunctionMethods = function (f) {
-        f.setSelf = method(sharedData, function (selfInst) {
+        
+        f.pushSelf = method(sharedData, function (selfInst) {
+            array_push(selfStack, selfInst);
             self_ = catspeak_special_to_struct(selfInst);
+        });
+        f.popSelf = method(sharedData, function () {
+            if (array_length(selfStack) > 1) array_pop(selfStack);
+            self_ = selfStack[array_length(selfStack)-1];
+            if (self_ != undefined) self_ = catspeak_special_to_struct(self_);
+        });
+        
+        f.setSelf = method(sharedData, function (selfInst) {
+            selfStack    = [selfInst];
+            selfOriginal = selfInst;
+            self_ = catspeak_special_to_struct(selfInst);
+        });
+        f.resetSelf = method(sharedData, function() {
+            self_ = catspeak_special_to_struct(selfOriginal);
         });
         f.setGlobals = method(sharedData, function (globalInst) {
             globals = catspeak_special_to_struct(globalInst);
@@ -438,7 +458,9 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
             // use the fast path
             return ctx.program;
         }
-        return method(ctx, __catspeak_function__);
+        var _method = method(ctx, __catspeak_function__);
+        ctx.boundFunc = _method;
+        return _method;
     };
 
     /// @ignore
@@ -1133,6 +1155,9 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
 /// @ignore
 /// @return {Any}
 function __catspeak_function__() {
+    var _oldFunction = global.__catspeakCurrentFunction;
+    global.__catspeakCurrentFunction = boundFunc;
+    
     var isRecursing = callTime >= 0;
     if (isRecursing) {
         // catch unbound recursion
@@ -1169,6 +1194,8 @@ function __catspeak_function__() {
             callTime = -1;
         }
     }
+    
+    global.__catspeakCurrentFunction = _oldFunction;
     return value;
 }
 
@@ -1724,4 +1751,6 @@ function __catspeak_init_codegen() {
     global.__catspeakGmlBreakRef = [undefined];
     /// @ignore
     global.__catspeakGmlContinueRef = [];
+    /// @ignore
+    global.__catspeakCurrentFunction = undefined;
 }
