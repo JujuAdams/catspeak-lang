@@ -228,15 +228,3 @@ function __pugspeak_check_arg_size_bits(name, val, size) {
         );
     }
 }
-
-/// @ignore
-///
-/// @param {Any} name
-function __pugspeak_check_global_exists(name) {
-    gml_pragma("forceinline");
-    if (!variable_global_exists(name)) {
-        __pugspeak_error(
-            "global variable '", name, "' does not exist"
-        );
-    }
-}
