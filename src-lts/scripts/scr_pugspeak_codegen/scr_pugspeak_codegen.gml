@@ -875,18 +875,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
                 key : __compileTerm(ctx, target.key),
                 value : value,
             }, func);
-        } else if (targetType == PugspeakTerm.PROPERTY) {
-            if (PUGSPEAK_DEBUG_MODE) {
-                __pugspeak_check_arg_struct("term.target", target,
-                    "property", undefined
-                );
-            }
-            var func = __assignLookupProperty[term.assignType];
-            return method({
-                dbgError : __dbgTerm(target.property, "is not a function"),
-                property : __compileTerm(ctx, target.property),
-                value : value,
-            }, func);
         } else if (targetType == PugspeakTerm.LOCAL) {
             if (PUGSPEAK_DEBUG_MODE) {
                 __pugspeak_check_arg_struct("term.target", target,
@@ -952,23 +940,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
             collection : __compileTerm(ctx, term.collection),
             key : __compileTerm(ctx, term.key),
         }, __pugspeak_expr_index_get__);
-    };
-
-    /// @ignore
-    ///
-    /// @param {Struct} ctx
-    /// @param {Struct} term
-    /// @return {Function}
-    static __compileProperty = function (ctx, term) {
-        if (PUGSPEAK_DEBUG_MODE) {
-            __pugspeak_check_arg_struct("term", term,
-                "property", undefined
-            );
-        }
-        return method({
-            dbgError : __dbgTerm(term.property, "is not a function"),
-            property : __compileTerm(ctx, term.property),
-        }, __pugspeak_expr_property_get__);
     };
 
     /// @ignore
@@ -1078,7 +1049,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
         db[@ PugspeakTerm.CALL_NEW] = __compileCallNew;
         db[@ PugspeakTerm.SET] = __compileSet;
         db[@ PugspeakTerm.INDEX] = __compileIndex;
-        db[@ PugspeakTerm.PROPERTY] = __compileProperty;
         db[@ PugspeakTerm.NAKED] = __compileGlobal;
         db[@ PugspeakTerm.LOCAL] = __compileLocal;
         db[@ PugspeakTerm.FUNCTION] = __compileFunctionExpr;

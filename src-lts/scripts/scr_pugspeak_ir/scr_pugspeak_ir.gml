@@ -412,22 +412,6 @@ function PugspeakIRBuilder() constructor {
         });
     };
 
-    /// Creates a property expression.
-    ///
-    /// @param {Struct} property
-    ///   The term containing the property to access.
-    ///
-    /// @param {Real} [location]
-    ///   The source location of this term.
-    ///
-    /// @return {Struct}
-    static createProperty = function (property, location=undefined) {
-        // __createTerm() will do argument validation
-        return __createTerm(PugspeakTerm.PROPERTY, location, {
-            property : property,
-        });
-    };
-
     /// Creates a binary operator.
     ///
     /// @param {Enum.PugspeakOperator} operator
@@ -855,9 +839,8 @@ enum PugspeakTerm {
     CALL_NEW,  //15
     SET,       //16
     INDEX,     //17
-    PROPERTY,  //18
-    LOCAL,     //19
-    NAKED,     //20
-    FUNCTION,  //21
-    __SIZE__   //22
+    LOCAL,     //18
+    NAKED,     //29
+    FUNCTION,  //20
+    __SIZE__   //21
 }

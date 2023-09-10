@@ -396,10 +396,6 @@ function PugspeakParser(lexer, builder) constructor {
             var op = __pugspeak_operator_from_token(peeked);
             var value = __parseIndex();
             return asg.createUnary(op, value, lexer.getLocation());
-        } else if (peeked == PugspeakToken.COLON) {
-            // `:property` syntax
-            lexer.next();
-            return asg.createProperty(__parseTerminal(), lexer.getLocation());
         } else {
             return __parseIndex();
         }
