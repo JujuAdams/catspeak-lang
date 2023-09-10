@@ -1562,9 +1562,9 @@ function __pugspeak_expr_scope_get__() {
 function __pugspeak_expr_scope_set__() {
     var target = shared.execScope;
     if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
-        return target.PUGSPEAK_SETTER(name, value());
+        target.PUGSPEAK_SETTER(name, value());
     } else {
-        return target[$ name] = value();
+        target[$ name] = value();
     }
 }
 
