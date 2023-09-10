@@ -455,10 +455,6 @@ function CatspeakParser(lexer, builder) constructor {
     ///
     /// @return {Struct}
     static __parseIndex = function () {
-        var callNew = lexer.peek() == CatspeakToken.NEW;
-        if (callNew) {
-            lexer.next();
-        }
         var result = __parseTerminal();
         while (true) {
             var peeked = lexer.peek();
@@ -475,10 +471,7 @@ function CatspeakParser(lexer, builder) constructor {
                 if (lexer.next() != CatspeakToken.PAREN_RIGHT) {
                     __ex("expected closing ')' after function arguments");
                 }
-                result = callNew
-                        ? asg.createCallNew(result, args, lexer.getLocation())
-                        : asg.createCall(result, args, lexer.getLocation());
-                callNew = false;
+                result = asg.createCall(result, args, lexer.getLocation());
             } else if (peeked == CatspeakToken.BOX_LEFT) {
                 // accessor syntax
                 lexer.next();
@@ -500,10 +493,6 @@ function CatspeakParser(lexer, builder) constructor {
             } else {
                 break;
             }
-        }
-        if (callNew) {
-            // implicit new: `let t = new Thing;`
-            result = asg.createCallNew(result, [], lexer.getLocation());
         }
         return result;
     };

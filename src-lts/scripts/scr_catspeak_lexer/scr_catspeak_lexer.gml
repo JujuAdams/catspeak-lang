@@ -946,8 +946,6 @@ function __catspeak_keywords_create() {
     keywords[$ "break"] = CatspeakToken.BREAK;
     keywords[$ "continue"] = CatspeakToken.CONTINUE;
     keywords[$ "return"] = CatspeakToken.RETURN;
-    keywords[$ "new"] = CatspeakToken.NEW;
-    keywords[$ "impl"] = CatspeakToken.IMPL;
     return keywords;
 }
 
