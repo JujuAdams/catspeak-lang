@@ -334,6 +334,8 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
     self.program = __compileFunctions(asg.entryPoints);
     self.finalised = false;
     self.sharedData.selfOriginal = self.sharedData.self_;
+    self.sharedData.globalsOriginal = self.sharedData.globals;
+    self.sharedData.globalsStack = [self.sharedData.globalsOriginal];
 
     /// @ignore
     ///
@@ -415,7 +417,6 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
             self_ = selfStack[array_length(selfStack)-1];
             if (self_ != undefined) self_ = catspeak_special_to_struct(self_);
         });
-        
         f.setSelf = method(sharedData, function (selfInst) {
             selfStack    = [selfInst];
             selfOriginal = selfInst;
@@ -424,11 +425,33 @@ function CatspeakGMLCompiler(asg, interface=undefined) constructor {
         f.resetSelf = method(sharedData, function() {
             self_ = catspeak_special_to_struct(selfOriginal);
         });
+        f.getSelf = method(sharedData, function () { return self_ ?? globals });
+        
+        
+        
+        
+        
+        f.pushGlobals = method(sharedData, function (globalInst) {
+            array_push(globalsStack, globalInst);
+            globals = catspeak_special_to_struct(globalInst);
+        });
+        f.popGlobals = method(sharedData, function () {
+            if (array_length(globalsStack) > 1) array_pop(globalsStack);
+            globals = globalsStack[array_length(globalsStack)-1];
+            if (globals != undefined) globals = catspeak_special_to_struct(globals);
+        });
         f.setGlobals = method(sharedData, function (globalInst) {
             globals = catspeak_special_to_struct(globalInst);
         });
-        f.getSelf = method(sharedData, function () { return self_ ?? globals });
+        f.resetGlobals = method(sharedData, function() {
+            globals = catspeak_special_to_struct(globalsOriginal);
+        });
         f.getGlobals = method(sharedData, function () { return globals });
+        
+        
+        
+        
+        
     };
 
     /// @ignore
@@ -1666,7 +1689,7 @@ function __catspeak_expr_property_set_plus__() {
 /// @ignore
 /// @return {Any}
 function __catspeak_expr_global_get__() {
-    if (variable_struct_exists(shared.self_, name))
+    if ((shared.self_ != undefined) && variable_struct_exists(shared.self_, name))
     {
         return shared.self_[$ name];
     }
