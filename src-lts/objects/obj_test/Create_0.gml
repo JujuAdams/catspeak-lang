@@ -1,5 +1,6 @@
 var _string = @'
 global.q = "meow"
+
 Log("outside")
 let thing = use Builder {
     x = 42
@@ -44,8 +45,5 @@ Pugspeak.interface.exposeFunction("Builder", function()
     }
 });
 
-var _asg = Pugspeak.parseString(_string);
-func = Pugspeak.compileGML(_asg);
-
-show_debug_message("func() return " + string(func()));
+show_debug_message(PugspeakExecute(_string));
 show_debug_message("globalVars = " + string(Pugspeak.globalVars));
