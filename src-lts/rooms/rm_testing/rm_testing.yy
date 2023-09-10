@@ -48,7 +48,7 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "demo",
-    "path": "folders/Testing/demo.yy",
+    "name": "catspeak",
+    "path": "catspeak.yyp",
   },
 }
