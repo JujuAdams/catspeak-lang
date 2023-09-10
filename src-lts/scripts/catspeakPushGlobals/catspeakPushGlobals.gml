@@ -1,5 +1,5 @@
-function catspeakPushGlobals(_target)
+function pugspeakPushGlobals(_target)
 {
-    if (global.__catspeakCurrentFunction == undefined) __catspeak_error("catspeakPushGlobals() must only be called whilst a function is executing");
-    global.__catspeakCurrentFunction.pushGlobals(_target);
+    if (global.__pugspeakCurrentFunction == undefined) __pugspeak_error("pugspeakPushGlobals() must only be called whilst a function is executing");
+    global.__pugspeakCurrentFunction.pushGlobals(_target);
 }
