@@ -189,7 +189,7 @@ function __pugspeak_create_buffer_from_string(src) {
 /// @param {Struct} [keywords]
 ///   A struct whose keys map to the corresponding Pugspeak tokens they
 ///   represent. Defaults to the vanilla set of Pugspeak keywords.
-function PugspeakLexer(
+function PugspeakClassLexer(
     buff, offset=0, size=infinity, keywords=undefined
 ) constructor {
     static _global = __PugspeakGMLGlobal();
@@ -393,7 +393,7 @@ function PugspeakLexer(
     ///   printing each non-whitespace token out as a debug message.
     ///
     /// ```gml
-    /// var lexer = new PugspeakLexer(buff);
+    /// var lexer = new PugspeakClassLexer(buff);
     /// do {
     ///   var token = lexer.nextWithWhitespace();
     ///   if (token != PugspeakToken.WHITESPACE) {
@@ -699,7 +699,7 @@ function PugspeakLexer(
     ///   printing each token out as a debug message.
     ///
     /// ```gml
-    /// var lexer = new PugspeakLexer(buff);
+    /// var lexer = new PugspeakClassLexer(buff);
     /// do {
     ///   var token = lexer.next();
     ///   show_debug_message(lexer.getLexeme());
@@ -730,7 +730,7 @@ function PugspeakLexer(
     ///   printing each token out as a debug message.
     ///
     /// ```gml
-    /// var lexer = new PugspeakLexer(buff);
+    /// var lexer = new PugspeakClassLexer(buff);
     /// while (lexer.peek() != PugspeakToken.EOF) {
     ///   lexer.next();
     ///   show_debug_message(lexer.getLexeme());

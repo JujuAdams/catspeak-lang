@@ -7,20 +7,20 @@
 
 //# feather use syntax-errors
 
-/// Consumes tokens produced by a [PugspeakLexer] and transforms them into an
+/// Consumes tokens produced by a [PugspeakClassLexer] and transforms them into an
 /// abstract syntax graph representing a Pugspeak program.
 ///
-/// @param {Struct.PugspeakLexer} lexer
+/// @param {Struct.PugspeakClassLexer} lexer
 ///   The lexer to consume tokens from.
 ///
-/// @param {Struct.PugspeakIRBuilder} builder
+/// @param {Struct.PugspeakClassIRBuilder} builder
 ///   The syntax graph builder to write data to.
-function PugspeakParser(lexer, builder) constructor {
+function PugspeakClassParser(lexer, builder) constructor {
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_arg_struct_instanceof(
-                "lexer", lexer, "PugspeakLexer");
+                "lexer", lexer, "PugspeakClassLexer");
         __pugspeak_check_arg_struct_instanceof(
-                "builder", builder, "PugspeakIRBuilder");
+                "builder", builder, "PugspeakClassIRBuilder");
     }
     self.lexer = lexer;
     self.asg = builder;
@@ -35,11 +35,11 @@ function PugspeakParser(lexer, builder) constructor {
     /// if the parser has reached the end of the file.
     ///
     /// @example
-    ///   Creates a new [PugspeakParser] from the variables `lexer` and
+    ///   Creates a new [PugspeakClassParser] from the variables `lexer` and
     ///   `builder`, then loops until there is nothing left to parse.
     ///
     /// ```gml
-    /// var parser = new PugspeakParser(lexer, builder);
+    /// var parser = new PugspeakClassParser(lexer, builder);
     /// var moreToParse;
     /// do {
     ///     moreToParse = parser.update();

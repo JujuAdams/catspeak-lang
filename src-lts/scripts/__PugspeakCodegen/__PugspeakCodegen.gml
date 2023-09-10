@@ -1,7 +1,7 @@
 //! Responsible for the code generation stage of the Pugspeak compiler.
 //!
 //! This stage converts the hierarchical representation of your Pugspeak
-//! programs, produced by [PugspeakParser] and [PugspeakIRBuilder], into
+//! programs, produced by [PugspeakClassParser] and [PugspeakClassIRBuilder], into
 //! various lower-level formats. The most interesting of these formats is
 //! the conversion of Pugspeak programs into runnable GML functions.
 
@@ -23,7 +23,7 @@ function __pugspeak_infer_function_name(func) {
 }
 
 /// Represents a foreign function/constant interface for exposing Pugspeak
-function PugspeakForeignInterface() constructor {
+function PugspeakClassForeignInterface() constructor {
     self.database = { };
     self.banList = { };
 
@@ -313,7 +313,7 @@ function __pugspeak_timeout_check(t) {
 ///
 /// @param {Struct} [interface]
 ///   The native interface to use.
-function PugspeakGMLCompiler(asg, interface=undefined) constructor {
+function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
         __pugspeak_check_arg_struct("asg", asg,
@@ -359,12 +359,12 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     /// terms left to compile.
     ///
     /// @example
-    ///   Creates a new [PugspeakGMLCompiler] from the variable `asg` and
+    ///   Creates a new [PugspeakClassGMLCompiler] from the variable `asg` and
     ///   loops until the compiler is finished compiling. The final result is
     ///   assigned to the `result` local variable.
     ///
     /// ```gml
-    /// var compiler = new PugspeakGMLCompiler(asg);
+    /// var compiler = new PugspeakClassGMLCompiler(asg);
     /// var result;
     /// do {
     ///     result = compiler.update();

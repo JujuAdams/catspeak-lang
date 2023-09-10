@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "PugspeakScope",
+  "name": "PugspeakCompileString",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Advanced",
-    "path": "folders/Pugspeak/Advanced.yy",
+    "name": "Pugspeak",
+    "path": "folders/Pugspeak.yy",
   },
 }

@@ -5,7 +5,7 @@
 /// Packages all common Pugspeak features into a neat, configurable box.
 function PugspeakClassEnvironment() constructor {
     self.keywords = undefined;
-    self.interface = new PugspeakForeignInterface();
+    self.interface = new PugspeakClassForeignInterface();
 
     /// Applies list of presets to this Pugspeak environment. These changes
     /// cannot be undone, so only choose presets you really need.
@@ -22,7 +22,7 @@ function PugspeakClassEnvironment() constructor {
         }
     };
 
-    /// Creates a new [PugspeakLexer] from the supplied buffer, overriding
+    /// Creates a new [PugspeakClassLexer] from the supplied buffer, overriding
     /// the keyword database if one exists for this [PugspeakEngine].
     ///
     /// NOTE: The lexer does not take ownership of this buffer, but it may
@@ -39,10 +39,10 @@ function PugspeakClassEnvironment() constructor {
     ///   The length of the buffer input. Any characters beyond this limit
     ///   will be treated as the end of the file. Defaults to `infinity`.
     ///
-    /// @return {Struct.PugspeakLexer}
+    /// @return {Struct.PugspeakClassLexer}
     static tokenise = function (buff, offset=undefined, size=undefined) {
-        // PugspeakLexer() will do argument validation
-        return new PugspeakLexer(buff, offset, size, keywords);
+        // PugspeakClassLexer() will do argument validation
+        return new PugspeakClassLexer(buff, offset, size, keywords);
     };
 
     /// Parses a buffer containing a Pugspeak program into a bespoke format
@@ -63,12 +63,12 @@ function PugspeakClassEnvironment() constructor {
     ///   The length of the buffer input. Any characters beyond this limit
     ///   will be treated as the end of the file. Defaults to `infinity`.
     ///
-    /// @return {Struct.PugspeakLexer}
+    /// @return {Struct.PugspeakClassLexer}
     static parse = function (buff, offset=undefined, size=undefined) {
         // tokenise() will do argument validation
         var lexer = tokenise(buff, offset, size);
-        var builder = new PugspeakIRBuilder();
-        var parser = new PugspeakParser(lexer, builder);
+        var builder = new PugspeakClassIRBuilder();
+        var parser = new PugspeakClassParser(lexer, builder);
         var moreToParse;
         do {
             moreToParse = parser.update();
@@ -81,7 +81,7 @@ function PugspeakClassEnvironment() constructor {
     /// @param {String} src
     ///   The string containing Pugspeak source code to parse.
     ///
-    /// @return {Struct.PugspeakLexer}
+    /// @return {Struct.PugspeakClassLexer}
     static parseString = function (src) {
         var buff = __pugspeak_create_buffer_from_string(src);
         return Pugspeak.parse(buff);
@@ -121,8 +121,8 @@ function PugspeakClassEnvironment() constructor {
     ///
     /// @return {Function}
     static compileGML = function (asg) {
-        // PugspeakGMLCompiler() will do argument validation
-        var compiler = new PugspeakGMLCompiler(asg, interface);
+        // PugspeakClassGMLCompiler() will do argument validation
+        var compiler = new PugspeakClassGMLCompiler(asg, interface);
         var result;
         do {
             result = compiler.update();

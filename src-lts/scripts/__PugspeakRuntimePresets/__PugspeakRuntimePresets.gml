@@ -49,7 +49,7 @@ function __pugspeak_preset_get(preset) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_type(ffi) {
     ffi.exposeFunction(
         "is_string", is_string,
@@ -77,7 +77,7 @@ function __pugspeak_preset_type(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_array(ffi) {
     ffi.exposeFunction(
         "array_create", array_create,
@@ -123,7 +123,7 @@ function __pugspeak_preset_array(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_struct(ffi) {
     ffi.exposeFunction(
         "struct_exists", variable_struct_exists,
@@ -140,7 +140,7 @@ function __pugspeak_preset_struct(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_string(ffi) {
     ffi.exposeFunction(
         "ansi_char", ansi_char,
@@ -191,7 +191,7 @@ function __pugspeak_preset_string(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_math(ffi) {
     ffi.exposeFunction(
         "round", round,
@@ -245,7 +245,7 @@ function __pugspeak_preset_math(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_math_3d(ffi) {
     ffi.exposeFunction(
         "point_distance_3d", point_distance_3d,
@@ -264,7 +264,7 @@ function __pugspeak_preset_math_3d(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_colour(ffi) {
     ffi.exposeFunction(
         "colour_get_blue", colour_get_blue,
@@ -302,7 +302,7 @@ function __pugspeak_preset_colour(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_draw(ffi) {
     ffi.exposeFunction(
         "draw_self", draw_self,
@@ -472,7 +472,7 @@ function __pugspeak_preset_draw(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_random(ffi) {
     ffi.exposeFunction(
         "choose", choose,
@@ -485,7 +485,7 @@ function __pugspeak_preset_random(ffi) {
 
 /// @ignore
 ///
-/// @param {Struct.PugspeakForeignInterface} ffi
+/// @param {Struct.PugspeakClassForeignInterface} ffi
 function __pugspeak_preset_unsafe(ffi) {
     ffi.exposeFunction(
         "asset_get_index", asset_get_index,
