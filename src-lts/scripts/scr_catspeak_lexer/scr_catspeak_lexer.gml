@@ -120,8 +120,6 @@ enum CatspeakToken {
     NEW,
     /// The `impl` keyword.
     IMPL,
-    /// The `self` keyword.
-    SELF,
     /// The `params` keyword.
     PARAMS,
     /// Represents a variable name.
@@ -950,7 +948,6 @@ function __catspeak_keywords_create() {
     keywords[$ "return"] = CatspeakToken.RETURN;
     keywords[$ "new"] = CatspeakToken.NEW;
     keywords[$ "impl"] = CatspeakToken.IMPL;
-    keywords[$ "self"] = CatspeakToken.SELF;
     return keywords;
 }
 

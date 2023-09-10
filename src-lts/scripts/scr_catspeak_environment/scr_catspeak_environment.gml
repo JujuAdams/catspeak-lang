@@ -330,7 +330,7 @@ function CatspeakEnvironment() constructor {
 }
 
 /// A usability function for converting special GML constants, such as
-/// `self` or `global` into structs.
+/// `global` into structs.
 ///
 /// Will return `undefined` if there does not exist a valid conversion.
 ///

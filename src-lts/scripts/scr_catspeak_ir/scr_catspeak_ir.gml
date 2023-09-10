@@ -500,17 +500,6 @@ function CatspeakIRBuilder() constructor {
         });
     };
 
-    /// Creates an instruction for accessing the caller `self`.
-    ///
-    /// @param {Real} [location]
-    ///   The source location of this term.
-    ///
-    /// @return {Struct}
-    static createSelf = function (location=undefined) {
-        // __createTerm() will do argument validation
-        return __createTerm(CatspeakTerm.SELF, location, { });
-    };
-
     /// Attempts to assign a right-hand-side value to a left-hand-side target.
     ///
     /// NOTE: Either terms A or B could be optimised or modified, therefore
@@ -815,8 +804,7 @@ function __catspeak_term_is_pure(kind) {
     return kind == CatspeakTerm.VALUE ||
             kind == CatspeakTerm.LOCAL ||
             kind == CatspeakTerm.GLOBAL ||
-            kind == CatspeakTerm.FUNCTION ||
-            kind == CatspeakTerm.SELF;
+            kind == CatspeakTerm.FUNCTION;
 }
 
 /// @ignore
@@ -836,8 +824,6 @@ function __catspeak_term_get_terminal(term) {
             );
         }
         return term.name;
-    } else if (term.type == CatspeakTerm.SELF) {
-        return "self";
     } else if (term.type == CatspeakTerm.VALUE) {
         if (CATSPEAK_DEBUG_MODE) {
             __catspeak_check_arg_struct("term", term,
@@ -851,28 +837,27 @@ function __catspeak_term_get_terminal(term) {
 
 /// Indicates the type of term within a Catspeak syntax graph.
 enum CatspeakTerm {
-    VALUE,
-    ARRAY,
-    STRUCT,
-    BLOCK,
-    IF,
-    AND,
-    OR,
-    WHILE,
-    USE,
-    RETURN,
-    BREAK,
-    CONTINUE,
-    OP_BINARY,
-    OP_UNARY,
-    CALL,
-    CALL_NEW,
-    SET,
-    INDEX,
-    PROPERTY,
-    LOCAL,
-    GLOBAL,
-    FUNCTION,
-    SELF,
-    __SIZE__
+    VALUE,     // 0
+    ARRAY,     // 1
+    STRUCT,    // 2
+    BLOCK,     // 3
+    IF,        // 4
+    AND,       // 5
+    OR,        // 6
+    WHILE,     // 7
+    USE,       // 8
+    RETURN,    // 9
+    BREAK,     //10
+    CONTINUE,  //11
+    OP_BINARY, //12
+    OP_UNARY,  //13
+    CALL,      //14
+    CALL_NEW,  //15
+    SET,       //16
+    INDEX,     //17
+    PROPERTY,  //18
+    LOCAL,     //19
+    GLOBAL,    //20
+    FUNCTION,  //21
+    __SIZE__   //22
 }

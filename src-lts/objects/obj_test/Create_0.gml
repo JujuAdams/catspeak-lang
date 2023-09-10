@@ -1,10 +1,25 @@
 var _string = @'
+global = {}
+global.q = "meow"
 Log("outside")
 var thing = use Builder {
     x = 42
     MethodTest("wow")
-    Log("inside")
+    Log("inside A")
+    
+    use Builder {
+        y = 3.1412
+        MethodTest("b")
+        Log("inside B")
+    }
 }
+
+use Builder {
+    y = 3.1412
+    MethodTest("c")
+    Log("inside C")
+}
+
 Log("end")
 
 return thing
