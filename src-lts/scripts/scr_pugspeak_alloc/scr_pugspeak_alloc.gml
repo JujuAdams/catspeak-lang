@@ -5,7 +5,7 @@
 
 /// Forces the Pugspeak env to collect any discarded resources.
 function pugspeak_collect() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
     }
@@ -35,7 +35,7 @@ function pugspeak_collect() {
 /// @param {Struct} adapter
 /// @return {Any}
 function __pugspeak_alloc(owner, adapter) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var pool = _global.__pugspeakAllocPool;
     var poolMax = array_length(pool) - 1;
     if (poolMax >= 0) {
@@ -66,7 +66,7 @@ function __pugspeak_alloc(owner, adapter) {
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_map(owner) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     return __pugspeak_alloc(owner, _global.__pugspeakAllocDSMapAdapter);
 }
 
@@ -74,7 +74,7 @@ function __pugspeak_alloc_ds_map(owner) {
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_list(owner) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     return __pugspeak_alloc(owner, _global.__pugspeakAllocDSListAdapter);
 }
 
@@ -82,7 +82,7 @@ function __pugspeak_alloc_ds_list(owner) {
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_stack(owner) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     return __pugspeak_alloc(owner, _global.__pugspeakAllocDSStackAdapter);
 }
 
@@ -90,13 +90,13 @@ function __pugspeak_alloc_ds_stack(owner) {
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_priority(owner) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     return __pugspeak_alloc(owner, _global.__pugspeakAllocDSPriorityAdapter);
 }
 
 /// @ignore
 function __pugspeak_init_alloc() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     /// @ignore
     _global.__pugspeakAllocPool = [];
     /// @ignore

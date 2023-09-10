@@ -35,7 +35,7 @@ enum PugspeakPreset {
 /// @param {Enum.PugspeakPreset} preset
 /// @return {Function}
 function __pugspeak_preset_get(preset) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var presetFunc = _global.__pugspeakPresets[? preset];
     if (PUGSPEAK_DEBUG_MODE && presetFunc == undefined) {
         __pugspeak_error(
@@ -521,7 +521,7 @@ function __pugspeak_preset_unsafe(ffi) {
 /// });
 /// ```
 function pugspeak_preset_add(key, callback) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
     }
@@ -534,7 +534,7 @@ function pugspeak_preset_add(key, callback) {
 
 /// @ignore
 function __pugspeak_init_presets() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     /// @ignore
     _global.__pugspeakPresets = ds_map_create();
     pugspeak_preset_add(PugspeakPreset.TYPE, __pugspeak_preset_type);

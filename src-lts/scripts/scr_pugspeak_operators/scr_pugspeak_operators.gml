@@ -82,7 +82,7 @@ function __pugspeak_operator_assign_from_token(token) {
 /// @param {Enum.PugspeakOperator} op
 /// @return {Function}
 function __pugspeak_operator_get_binary(op) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var opFunc = _global.__pugspeakBinOps[op];
     if (PUGSPEAK_DEBUG_MODE && opFunc == undefined) {
         __pugspeak_error_bug();
@@ -95,7 +95,7 @@ function __pugspeak_operator_get_binary(op) {
 /// @param {Enum.PugspeakOperator} op
 /// @return {Function}
 function __pugspeak_operator_get_unary(op) {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var opFunc = _global.__pugspeakUnaryOps[op];
     if (PUGSPEAK_DEBUG_MODE && opFunc == undefined) {
         __pugspeak_error_bug();
@@ -290,7 +290,7 @@ function __pugspeak_op_bitwise_not_unary(rhs) {
 
 /// @ignore
 function __pugspeak_init_operators() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var binOps = array_create(PugspeakOperator.__SIZE__, undefined);
     var unaryOps = array_create(PugspeakOperator.__SIZE__, undefined);
     binOps[@ PugspeakOperator.REMAINDER] = __pugspeak_op_remainder;

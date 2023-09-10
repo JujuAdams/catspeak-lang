@@ -1151,7 +1151,7 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
 /// @ignore
 /// @return {Any}
 function __pugspeak_function__() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var _oldFunction = _global.__pugspeakCurrentFunction;
     _global.__pugspeakCurrentFunction = boundFunc;
     
@@ -1316,7 +1316,7 @@ function __pugspeak_expr_or__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_while__() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var callTime = ctx.callTime;
     var condition_ = condition;
     var body_ = body;
@@ -1370,7 +1370,7 @@ function __pugspeak_expr_while_simple__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_return__() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var box = _global.__pugspeakGmlReturnRef;
     box[@ 0] = value();
     throw box;
@@ -1379,7 +1379,7 @@ function __pugspeak_expr_return__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_break__() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var box = _global.__pugspeakGmlBreakRef;
     box[@ 0] = value();
     throw box;
@@ -1388,7 +1388,7 @@ function __pugspeak_expr_break__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_continue__() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     throw _global.__pugspeakGmlContinueRef;
 }
 
@@ -1746,7 +1746,7 @@ function __pugspeak_expr_self__() {
 
 /// @ignore
 function __pugspeak_init_codegen() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     /// @ignore
     _global.__pugspeakGmlReturnRef = [undefined];
     /// @ignore

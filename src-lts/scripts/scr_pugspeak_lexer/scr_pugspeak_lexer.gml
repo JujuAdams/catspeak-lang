@@ -192,7 +192,7 @@ function __pugspeak_create_buffer_from_string(src) {
 function PugspeakLexer(
     buff, offset=0, size=infinity, keywords=undefined
 ) constructor {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
         __pugspeak_check_arg("buff", buff, buffer_exists);
@@ -749,7 +749,7 @@ function PugspeakLexer(
 
 /// @ignore
 function __pugspeak_init_lexer() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     // initialise map from character to token type
     /// @ignore
     _global.__pugspeakChar2Token = __pugspeak_init_lexer_codepage();
@@ -995,7 +995,7 @@ function __pugspeak_keywords_find_name(keywords, token) {
 
 /// @ignore
 function __pugspeak_init_lexer_keywords() {
-    static _global = __PugspeakGlobal();
+    static _global = __PugspeakGMLGlobal();
     var keywords = __pugspeak_keywords_create();
     _global.__pugspeakConfig.keywords = keywords;
     return keywords;
