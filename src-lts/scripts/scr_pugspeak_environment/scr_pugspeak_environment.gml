@@ -332,9 +332,6 @@ function pugspeak_special_to_struct(gmlSpecial) {
     return undefined;
 }
 
-/// The default Pugspeak environment. Mainly exists for UX reasons.
-globalvar Pugspeak;
-
 /// @ignore
 function __pugspeak_init_engine() {
     // initialise the default Pugspeak env

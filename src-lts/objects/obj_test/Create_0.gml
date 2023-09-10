@@ -45,7 +45,7 @@ Pugspeak.interface.exposeFunction("Builder", function()
     }
 });
 
-Pugspeak.interface.exposeConstant("global", __Global());
+Pugspeak.interface.exposeConstant("global", PugspeakGetGlobal());
 
 var _asg = Pugspeak.parseString(_string);
 func = Pugspeak.compileGML(_asg);

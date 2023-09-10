@@ -382,7 +382,7 @@ function PugspeakIRBuilder() constructor {
             localIdx = scope[? name];
         }
         if (localIdx == undefined) {
-            return __createTerm(PugspeakTerm.GLOBAL, location, {
+            return __createTerm(PugspeakTerm.NAKED, location, {
                 name : name
             });
         } else {
@@ -546,8 +546,8 @@ function PugspeakIRBuilder() constructor {
                         return createValue(undefined, location);
                     }
                 }
-            } else if (lhsType == PugspeakTerm.GLOBAL) {
-                if (rhs.type == PugspeakTerm.GLOBAL) {
+            } else if (lhsType == PugspeakTerm.NAKED) {
+                if (rhs.type == PugspeakTerm.NAKED) {
                     if (PUGSPEAK_DEBUG_MODE) {
                         __pugspeak_check_arg_struct("lhs", lhs, "name", is_string);
                         __pugspeak_check_arg_struct("rhs", rhs, "name", is_string);
@@ -803,7 +803,7 @@ function PugspeakIRBuilder() constructor {
 function __pugspeak_term_is_pure(kind) {
     return kind == PugspeakTerm.VALUE ||
             kind == PugspeakTerm.LOCAL ||
-            kind == PugspeakTerm.GLOBAL ||
+            kind == PugspeakTerm.NAKED ||
             kind == PugspeakTerm.FUNCTION;
 }
 
@@ -817,7 +817,7 @@ function __pugspeak_term_get_terminal(term) {
             "type", is_numeric
         );
     }
-    if (term.type == PugspeakTerm.GLOBAL) {
+    if (term.type == PugspeakTerm.NAKED) {
         if (PUGSPEAK_DEBUG_MODE) {
             __pugspeak_check_arg_struct("term", term,
                 "name", undefined
@@ -857,7 +857,7 @@ enum PugspeakTerm {
     INDEX,     //17
     PROPERTY,  //18
     LOCAL,     //19
-    GLOBAL,    //20
+    NAKED,     //20
     FUNCTION,  //21
     __SIZE__   //22
 }

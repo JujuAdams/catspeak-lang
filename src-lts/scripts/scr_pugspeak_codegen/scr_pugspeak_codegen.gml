@@ -325,8 +325,8 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     self.functions = asg.functions;
     
     self.sharedData = {
-        globals : __Global(),
-        globalsStack : [],
+        execScope : PugspeakGetGlobal(),
+        execScopeStack : [],
     };
     
     //# feather disable once GM2043
@@ -404,27 +404,27 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
 
     static __setupPugspeakFunctionMethods = function (f) {
         
-        f.pushGlobals = method(sharedData, function (globalInst) {
-            array_push(globalsStack, globalInst);
-            globals = pugspeak_special_to_struct(globalInst);
+        f.pushExecScope = method(sharedData, function (globalInst) {
+            array_push(execScopeStack, globalInst);
+            execScope = pugspeak_special_to_struct(globalInst);
         });
-        f.popGlobals = method(sharedData, function () {
-            if (array_length(globalsStack) > 0) array_pop(globalsStack);
+        f.popExecScope = method(sharedData, function () {
+            if (array_length(execScopeStack) > 0) array_pop(execScopeStack);
             
-            if (array_length(globalsStack) <= 0) {
-                globals = __Global();
+            if (array_length(execScopeStack) <= 0) {
+                execScope = PugspeakGetGlobal();
             } else {
-                globals = pugspeak_special_to_struct(globalsStack[array_length(globalsStack)-1]);
+                execScope = pugspeak_special_to_struct(execScopeStack[array_length(execScopeStack)-1]);
             }
         });
-        f.setGlobals = method(sharedData, function (globalInst) {
-            globals = pugspeak_special_to_struct(globalInst);
-            globalsStack = [globals];
+        f.setExecScope = method(sharedData, function (globalInst) {
+            execScope = pugspeak_special_to_struct(globalInst);
+            execScopeStack = [execScope];
         });
-        f.resetGlobals = method(sharedData, function() {
-            globals = __Global();
+        f.resetExecScope = method(sharedData, function() {
+            execScope = PugspeakGetGlobal();
         });
-        f.getGlobals = method(sharedData, function () { return globals });
+        f.getExecScope = method(sharedData, function () { return execScope });
         
     };
 
@@ -899,7 +899,7 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
                 idx : target.idx,
                 value : value,
             }, func);
-        } else if (targetType == PugspeakTerm.GLOBAL) {
+        } else if (targetType == PugspeakTerm.NAKED) {
             if (PUGSPEAK_DEBUG_MODE) {
                 __pugspeak_check_arg_struct("term.target", target,
                     "name", is_string
@@ -1079,7 +1079,7 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
         db[@ PugspeakTerm.SET] = __compileSet;
         db[@ PugspeakTerm.INDEX] = __compileIndex;
         db[@ PugspeakTerm.PROPERTY] = __compileProperty;
-        db[@ PugspeakTerm.GLOBAL] = __compileGlobal;
+        db[@ PugspeakTerm.NAKED] = __compileGlobal;
         db[@ PugspeakTerm.LOCAL] = __compileLocal;
         db[@ PugspeakTerm.FUNCTION] = __compileFunctionExpr;
         db[@ PugspeakTerm.AND] = __compileAnd;
@@ -1151,8 +1151,9 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
 /// @ignore
 /// @return {Any}
 function __pugspeak_function__() {
-    var _oldFunction = global.__pugspeakCurrentFunction;
-    global.__pugspeakCurrentFunction = boundFunc;
+    static _global = __PugspeakGlobal();
+    var _oldFunction = _global.__pugspeakCurrentFunction;
+    _global.__pugspeakCurrentFunction = boundFunc;
     
     var isRecursing = callTime >= 0;
     if (isRecursing) {
@@ -1174,7 +1175,7 @@ function __pugspeak_function__() {
     try {
         value = program();
     } catch (e) {
-        if (e == global.__pugspeakGmlReturnRef) {
+        if (e == _global.__pugspeakGmlReturnRef) {
             value = e[0];
         } else {
             throw e;
@@ -1191,7 +1192,7 @@ function __pugspeak_function__() {
         }
     }
     
-    global.__pugspeakCurrentFunction = _oldFunction;
+    _global.__pugspeakCurrentFunction = _oldFunction;
     return value;
 }
 
@@ -1315,6 +1316,7 @@ function __pugspeak_expr_or__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_while__() {
+    static _global = __PugspeakGlobal();
     var callTime = ctx.callTime;
     var condition_ = condition;
     var body_ = body;
@@ -1323,9 +1325,9 @@ function __pugspeak_expr_while__() {
         try {
             body_();
         } catch (e) {
-            if (e == global.__pugspeakGmlBreakRef) {
+            if (e == _global.__pugspeakGmlBreakRef) {
                 return e[0];
-            } else if (e != global.__pugspeakGmlContinueRef) {
+            } else if (e != _global.__pugspeakGmlContinueRef) {
                 throw e;
             }
         }
@@ -1368,7 +1370,8 @@ function __pugspeak_expr_while_simple__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_return__() {
-    var box = global.__pugspeakGmlReturnRef;
+    static _global = __PugspeakGlobal();
+    var box = _global.__pugspeakGmlReturnRef;
     box[@ 0] = value();
     throw box;
 }
@@ -1376,7 +1379,8 @@ function __pugspeak_expr_return__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_break__() {
-    var box = global.__pugspeakGmlBreakRef;
+    static _global = __PugspeakGlobal();
+    var box = _global.__pugspeakGmlBreakRef;
     box[@ 0] = value();
     throw box;
 }
@@ -1384,7 +1388,8 @@ function __pugspeak_expr_break__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_continue__() {
-    throw global.__pugspeakGmlContinueRef;
+    static _global = __PugspeakGlobal();
+    throw _global.__pugspeakGmlContinueRef;
 }
 
 /// @ignore
@@ -1463,7 +1468,7 @@ function __pugspeak_expr_call__() {
         }
     }
     var shared_ = shared;
-    with (method_get_self(callee_) ?? shared_.globals) {
+    with (method_get_self(callee_) ?? shared_.execScope) {
         var calleeIdx = method_get_index(callee_);
         return script_execute_ext(calleeIdx, args_);
     }
@@ -1662,37 +1667,37 @@ function __pugspeak_expr_property_set_plus__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_get__() {
-    return shared.globals[$ name];
+    return shared.execScope[$ name];
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_set__() {
-    shared.globals[$ name] = value();
+    shared.execScope[$ name] = value();
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_set_mult__() {
-    shared.globals[$ name] *= value();
+    shared.execScope[$ name] *= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_set_div__() {
-    shared.globals[$ name] /= value();
+    shared.execScope[$ name] /= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_set_sub__() {
-    shared.globals[$ name] -= value();
+    shared.execScope[$ name] -= value();
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_global_set_plus__() {
-    shared.globals[$ name] += value();
+    shared.execScope[$ name] += value();
 }
 
 /// @ignore
@@ -1736,17 +1741,18 @@ function __pugspeak_expr_local_set_plus__() {
 function __pugspeak_expr_self__() {
     // will either access a user-defined self instance, or the internal
     // global struct
-    return globals;
+    return execScope;
 }
 
 /// @ignore
 function __pugspeak_init_codegen() {
+    static _global = __PugspeakGlobal();
     /// @ignore
-    global.__pugspeakGmlReturnRef = [undefined];
+    _global.__pugspeakGmlReturnRef = [undefined];
     /// @ignore
-    global.__pugspeakGmlBreakRef = [undefined];
+    _global.__pugspeakGmlBreakRef = [undefined];
     /// @ignore
-    global.__pugspeakGmlContinueRef = [];
+    _global.__pugspeakGmlContinueRef = [];
     /// @ignore
-    global.__pugspeakCurrentFunction = undefined;
+    _global.__pugspeakCurrentFunction = undefined;
 }

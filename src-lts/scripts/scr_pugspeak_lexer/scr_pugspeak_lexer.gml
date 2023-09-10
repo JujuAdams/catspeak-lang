@@ -192,6 +192,7 @@ function __pugspeak_create_buffer_from_string(src) {
 function PugspeakLexer(
     buff, offset=0, size=infinity, keywords=undefined
 ) constructor {
+    static _global = __PugspeakGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
         __pugspeak_check_arg("buff", buff, buffer_exists);
@@ -218,7 +219,7 @@ function PugspeakLexer(
     self.charCurr = 0;
     //# feather disable once GM2043
     self.charNext = __nextUTF8Char();
-    self.keywords = keywords ?? global.__pugspeakString2Token;
+    self.keywords = keywords ?? _global.__pugspeakString2Token;
 
     /// @ignore
     ///
@@ -411,7 +412,7 @@ function PugspeakLexer(
         var token = PugspeakToken.OTHER;
         var charCurr_ = charCurr; // micro-optimisation, locals are faster
         if (charCurr_ >= 0 && charCurr_ < __PUGSPEAK_CODEPAGE_SIZE) {
-            token = global.__pugspeakChar2Token[charCurr_];
+            token = _global.__pugspeakChar2Token[charCurr_];
         }
         if (
             charCurr_ == ord("\"") ||
@@ -748,11 +749,12 @@ function PugspeakLexer(
 
 /// @ignore
 function __pugspeak_init_lexer() {
+    static _global = __PugspeakGlobal();
     // initialise map from character to token type
     /// @ignore
-    global.__pugspeakChar2Token = __pugspeak_init_lexer_codepage();
+    _global.__pugspeakChar2Token = __pugspeak_init_lexer_codepage();
     /// @ignore
-    global.__pugspeakString2Token = __pugspeak_init_lexer_keywords();
+    _global.__pugspeakString2Token = __pugspeak_init_lexer_keywords();
 }
 
 /// @ignore
@@ -993,7 +995,8 @@ function __pugspeak_keywords_find_name(keywords, token) {
 
 /// @ignore
 function __pugspeak_init_lexer_keywords() {
+    static _global = __PugspeakGlobal();
     var keywords = __pugspeak_keywords_create();
-    global.__pugspeakConfig.keywords = keywords;
+    _global.__pugspeakConfig.keywords = keywords;
     return keywords;
 }

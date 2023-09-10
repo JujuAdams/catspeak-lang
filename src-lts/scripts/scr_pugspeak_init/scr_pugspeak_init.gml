@@ -31,6 +31,8 @@
 ///       have it disabled.
 #macro PUGSPEAK_DEBUG_MODE (GM_build_type == "run")
 
+#macro Pugspeak  (__PugspeakGlobal().__environment)
+
 /// Makes sure that all Pugspeak global variables are initialised.
 /// Returns `true` if this is the first time this function was called, and
 /// `false` otherwise.
@@ -42,12 +44,13 @@
 /// @return {Bool}
 function pugspeak_force_init() {
     static initialised = false;
+    static _global = __PugspeakGlobal();
     if (initialised) {
         return false;
     }
     initialised = true;
     /// @ignore
-    global.__pugspeakConfig = { };
+    _global.__pugspeakConfig = { };
     // call initialisers
     __pugspeak_init_alloc();
     __pugspeak_init_operators();

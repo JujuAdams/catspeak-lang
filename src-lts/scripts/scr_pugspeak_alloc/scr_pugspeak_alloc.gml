@@ -5,10 +5,11 @@
 
 /// Forces the Pugspeak env to collect any discarded resources.
 function pugspeak_collect() {
+    static _global = __PugspeakGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
     }
-    var pool = global.__pugspeakAllocPool;
+    var pool = _global.__pugspeakAllocPool;
     var poolSize = array_length(pool);
     for (var i = 0; i < poolSize; i += 1) {
         var weakRef = pool[i];
@@ -34,7 +35,8 @@ function pugspeak_collect() {
 /// @param {Struct} adapter
 /// @return {Any}
 function __pugspeak_alloc(owner, adapter) {
-    var pool = global.__pugspeakAllocPool;
+    static _global = __PugspeakGlobal();
+    var pool = _global.__pugspeakAllocPool;
     var poolMax = array_length(pool) - 1;
     if (poolMax >= 0) {
         repeat (3) { // the number of retries until a new resource is created
@@ -64,55 +66,56 @@ function __pugspeak_alloc(owner, adapter) {
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_map(owner) {
-    gml_pragma("forceinline");
-    return __pugspeak_alloc(owner, global.__pugspeakAllocDSMapAdapter);
+    static _global = __PugspeakGlobal();
+    return __pugspeak_alloc(owner, _global.__pugspeakAllocDSMapAdapter);
 }
 
 /// @ignore
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_list(owner) {
-    gml_pragma("forceinline");
-    return __pugspeak_alloc(owner, global.__pugspeakAllocDSListAdapter);
+    static _global = __PugspeakGlobal();
+    return __pugspeak_alloc(owner, _global.__pugspeakAllocDSListAdapter);
 }
 
 /// @ignore
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_stack(owner) {
-    gml_pragma("forceinline");
-    return __pugspeak_alloc(owner, global.__pugspeakAllocDSStackAdapter);
+    static _global = __PugspeakGlobal();
+    return __pugspeak_alloc(owner, _global.__pugspeakAllocDSStackAdapter);
 }
 
 /// @ignore
 ///
 /// @param {Struct} owner
 function __pugspeak_alloc_ds_priority(owner) {
-    gml_pragma("forceinline");
-    return __pugspeak_alloc(owner, global.__pugspeakAllocDSPriorityAdapter);
+    static _global = __PugspeakGlobal();
+    return __pugspeak_alloc(owner, _global.__pugspeakAllocDSPriorityAdapter);
 }
 
 /// @ignore
 function __pugspeak_init_alloc() {
+    static _global = __PugspeakGlobal();
     /// @ignore
-    global.__pugspeakAllocPool = [];
+    _global.__pugspeakAllocPool = [];
     /// @ignore
-    global.__pugspeakAllocDSMapAdapter = {
+    _global.__pugspeakAllocDSMapAdapter = {
         create : ds_map_create,
         destroy : ds_map_destroy,
     };
     /// @ignore
-    global.__pugspeakAllocDSListAdapter = {
+    _global.__pugspeakAllocDSListAdapter = {
         create : ds_list_create,
         destroy : ds_list_destroy,
     };
     /// @ignore
-    global.__pugspeakAllocDSStackAdapter = {
+    _global.__pugspeakAllocDSStackAdapter = {
         create : ds_stack_create,
         destroy : ds_stack_destroy,
     };
     /// @ignore
-    global.__pugspeakAllocDSPriorityAdapter = {
+    _global.__pugspeakAllocDSPriorityAdapter = {
         create : ds_priority_create,
         destroy : ds_priority_destroy,
     };

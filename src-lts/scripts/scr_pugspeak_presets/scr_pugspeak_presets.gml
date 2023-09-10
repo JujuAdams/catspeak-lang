@@ -35,7 +35,8 @@ enum PugspeakPreset {
 /// @param {Enum.PugspeakPreset} preset
 /// @return {Function}
 function __pugspeak_preset_get(preset) {
-    var presetFunc = global.__pugspeakPresets[? preset];
+    static _global = __PugspeakGlobal();
+    var presetFunc = _global.__pugspeakPresets[? preset];
     if (PUGSPEAK_DEBUG_MODE && presetFunc == undefined) {
         __pugspeak_error(
             "a Pugspeak preset with the key '",
@@ -520,10 +521,11 @@ function __pugspeak_preset_unsafe(ffi) {
 /// });
 /// ```
 function pugspeak_preset_add(key, callback) {
+    static _global = __PugspeakGlobal();
     if (PUGSPEAK_DEBUG_MODE) {
         __pugspeak_check_init();
     }
-    var presets = global.__pugspeakPresets;
+    var presets = _global.__pugspeakPresets;
     if (ds_map_exists(presets, key)) {
        __pugspeak_error("a preset with the key '", key, "' already exists");
     }
@@ -532,8 +534,9 @@ function pugspeak_preset_add(key, callback) {
 
 /// @ignore
 function __pugspeak_init_presets() {
+    static _global = __PugspeakGlobal();
     /// @ignore
-    global.__pugspeakPresets = ds_map_create();
+    _global.__pugspeakPresets = ds_map_create();
     pugspeak_preset_add(PugspeakPreset.TYPE, __pugspeak_preset_type);
     pugspeak_preset_add(PugspeakPreset.ARRAY, __pugspeak_preset_array);
     pugspeak_preset_add(PugspeakPreset.STRUCT, __pugspeak_preset_struct);

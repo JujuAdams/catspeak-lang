@@ -27,8 +27,9 @@ function __pugspeak_deprecated(name, alternative=undefined) {
 ///
 /// @return {Struct}
 function pugspeak_config() {
+    static _global = __PugspeakGlobal();
     pugspeak_force_init();
-    var config = global.__pugspeakConfig;
+    var config = _global.__pugspeakConfig;
     if (argument_count > 0 && is_struct(argument[0])) {
         // for compatibility
         var newConfig = argument[0];
