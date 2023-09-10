@@ -978,15 +978,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     /// @param {Struct} ctx
     /// @param {Struct} term
     /// @return {Function}
-    static __compileSelf = function (ctx, term) {
-        return method(sharedData, __pugspeak_expr_self__);
-    };
-
-    /// @ignore
-    ///
-    /// @param {Struct} ctx
-    /// @param {Struct} term
-    /// @return {Function}
     static __compileTerm = function (ctx, term) {
         if (PUGSPEAK_DEBUG_MODE) {
             __pugspeak_check_arg_struct("term", term,
@@ -1034,17 +1025,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
         db[@ PugspeakAssign.DIVIDE] = __pugspeak_expr_index_set_div__;
         db[@ PugspeakAssign.SUBTRACT] = __pugspeak_expr_index_set_sub__;
         db[@ PugspeakAssign.PLUS] = __pugspeak_expr_index_set_plus__;
-        return db;
-    })();
-
-    /// @ignore
-    static __assignLookupProperty = (function () {
-        var db = array_create(PugspeakAssign.__SIZE__, undefined);
-        db[@ PugspeakAssign.VANILLA] = __pugspeak_expr_property_set__;
-        db[@ PugspeakAssign.MULTIPLY] = __pugspeak_expr_property_set_mult__;
-        db[@ PugspeakAssign.DIVIDE] = __pugspeak_expr_property_set_div__;
-        db[@ PugspeakAssign.SUBTRACT] = __pugspeak_expr_property_set_sub__;
-        db[@ PugspeakAssign.PLUS] = __pugspeak_expr_property_set_plus__;
         return db;
     })();
 
@@ -1540,71 +1520,6 @@ function __pugspeak_expr_index_set_plus__() {
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_property_get__() {
-    var property_ = property();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_();
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_property_set__() {
-    var property_ = property();
-    var value_ = value();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_(value_);
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_property_set_mult__() {
-    var property_ = property();
-    var value_ = value();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_(property_() * value_);
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_property_set_div__() {
-    var property_ = property();
-    var value_ = value();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_(property_() / value_);
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_property_set_sub__() {
-    var property_ = property();
-    var value_ = value();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_(property_() - value_);
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_property_set_plus__() {
-    var property_ = property();
-    var value_ = value();
-    if (!is_method(property_)) {
-        __pugspeak_error_got(dbgError, property_);
-    }
-    return property_(property_() + value_);
-}
-
-/// @ignore
-/// @return {Any}
 function __pugspeak_expr_scope_get__() {
     return shared.execScope[$ name];
 }
@@ -1673,14 +1588,6 @@ function __pugspeak_expr_local_set_sub__() {
 /// @return {Any}
 function __pugspeak_expr_local_set_plus__() {
     locals[@ idx] += value();
-}
-
-/// @ignore
-/// @return {Any}
-function __pugspeak_expr_self__() {
-    // will either access a user-defined self instance, or the internal
-    // global struct
-    return execScope;
 }
 
 /// @ignore
