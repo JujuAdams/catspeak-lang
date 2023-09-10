@@ -993,7 +993,7 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
             return method({
                 name : name,
                 shared : sharedData,
-            }, __pugspeak_expr_global_get__);
+            }, __pugspeak_expr_scope_get__);
         }
     };
 
@@ -1123,11 +1123,11 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     /// @ignore
     static __assignLookupGlobal = (function () {
         var db = array_create(PugspeakAssign.__SIZE__, undefined);
-        db[@ PugspeakAssign.VANILLA] = __pugspeak_expr_global_set__;
-        db[@ PugspeakAssign.MULTIPLY] = __pugspeak_expr_global_set_mult__;
-        db[@ PugspeakAssign.DIVIDE] = __pugspeak_expr_global_set_div__;
-        db[@ PugspeakAssign.SUBTRACT] = __pugspeak_expr_global_set_sub__;
-        db[@ PugspeakAssign.PLUS] = __pugspeak_expr_global_set_plus__;
+        db[@ PugspeakAssign.VANILLA] = __pugspeak_expr_scope_set__;
+        db[@ PugspeakAssign.MULTIPLY] = __pugspeak_expr_scope_set_mult__;
+        db[@ PugspeakAssign.DIVIDE] = __pugspeak_expr_scope_set_div__;
+        db[@ PugspeakAssign.SUBTRACT] = __pugspeak_expr_scope_set_sub__;
+        db[@ PugspeakAssign.PLUS] = __pugspeak_expr_scope_set_plus__;
         return db;
     })();
 
@@ -1666,37 +1666,37 @@ function __pugspeak_expr_property_set_plus__() {
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_get__() {
+function __pugspeak_expr_scope_get__() {
     return shared.execScope[$ name];
 }
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_set__() {
+function __pugspeak_expr_scope_set__() {
     shared.execScope[$ name] = value();
 }
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_set_mult__() {
+function __pugspeak_expr_scope_set_mult__() {
     shared.execScope[$ name] *= value();
 }
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_set_div__() {
+function __pugspeak_expr_scope_set_div__() {
     shared.execScope[$ name] /= value();
 }
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_set_sub__() {
+function __pugspeak_expr_scope_set_sub__() {
     shared.execScope[$ name] -= value();
 }
 
 /// @ignore
 /// @return {Any}
-function __pugspeak_expr_global_set_plus__() {
+function __pugspeak_expr_scope_set_plus__() {
     shared.execScope[$ name] += value();
 }
 
