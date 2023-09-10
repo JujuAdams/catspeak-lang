@@ -224,7 +224,7 @@ function PugspeakParser(lexer, builder) constructor {
     ///
     /// @return {Struct}
     static __parseAssign = function () {
-        var lhs = __parseOpLogical();
+        var lhs = __parseOpBitwise();
         var peeked = lexer.peek();
         if (
             peeked == PugspeakToken.ASSIGN ||
@@ -243,29 +243,6 @@ function PugspeakParser(lexer, builder) constructor {
             );
         }
         return lhs;
-    };
-
-    /// @ignore
-    ///
-    /// @return {Struct}
-    static __parseOpLogical = function () {
-        var result = __parseOpPipe();
-        while (true) {
-            var peeked = lexer.peek();
-            if (peeked == PugspeakToken.AND) {
-                lexer.next();
-                var lhs = result;
-                var rhs = __parseOpBitwise();
-                result = asg.createAnd(lhs, rhs, lexer.getLocation());
-            } else if (peeked == PugspeakToken.OR) {
-                lexer.next();
-                var lhs = result;
-                var rhs = __parseOpBitwise();
-                result = asg.createOr(lhs, rhs, lexer.getLocation());
-            } else {
-                return result;
-            }
-        }
     };
 
     /// @ignore

@@ -1,7 +1,7 @@
 var _string = @'
 global.q = "meow"
 Log("outside")
-var thing = use Builder {
+let thing = use Builder {
     x = 42
     MethodTest("wow")
     Log("inside A")
@@ -21,6 +21,8 @@ use Builder {
 
 Log("end")
 
+Log(global)
+
 return thing
 ';
 
@@ -33,14 +35,13 @@ Pugspeak.interface.exposeFunction("Log", function(_value)
 
 Pugspeak.interface.exposeFunction("Builder", function()
 {
-    var _struct = new ClassTest();
-    contextPush(_struct);
-    pugspeakPushScope(_struct);
+    PugspeakPushScope(new ClassTest());
     
     return function()
     {
-        pugspeakPopScope();
-        return contextPop();
+        var _scope = PugspeakScope();
+        PugspeakPopScope();
+        return _scope;
     }
 });
 

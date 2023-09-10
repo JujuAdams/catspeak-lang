@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "catspeakPopGlobals",
+  "name": "PugspeakScope",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "catspeak",
-    "path": "catspeak.yyp",
+    "name": "Pugspeak",
+    "path": "folders/Pugspeak.yy",
   },
 }

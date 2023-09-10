@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "pugspeakPopScope",
+  "name": "PugspeakPopScope",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {

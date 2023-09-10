@@ -1,5 +1,5 @@
-function PugspeakPushScope(_target)
+function PugspeakScope()
 {
     if (global.__pugspeakCurrentFunction == undefined) __pugspeak_error("PugspeakPushScope() must only be called whilst a function is executing");
-    global.__pugspeakCurrentFunction.pushGlobals(_target);
+    return global.__pugspeakCurrentFunction.getGlobals();
 }

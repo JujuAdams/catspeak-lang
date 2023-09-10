@@ -325,14 +325,13 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     self.functions = asg.functions;
     
     self.sharedData = {
-        globals : { },
+        globals : __Global(),
+        globalsStack : [],
     };
     
     //# feather disable once GM2043
     self.program = __compileFunctions(asg.entryPoints);
     self.finalised = false;
-    self.sharedData.globalsOriginal = self.sharedData.globals;
-    self.sharedData.globalsStack = [self.sharedData.globalsOriginal];
 
     /// @ignore
     ///
@@ -410,15 +409,20 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
             globals = pugspeak_special_to_struct(globalInst);
         });
         f.popGlobals = method(sharedData, function () {
-            if (array_length(globalsStack) > 1) array_pop(globalsStack);
-            globals = globalsStack[array_length(globalsStack)-1];
-            if (globals != undefined) globals = pugspeak_special_to_struct(globals);
+            if (array_length(globalsStack) > 0) array_pop(globalsStack);
+            
+            if (array_length(globalsStack) <= 0) {
+                globals = __Global();
+            } else {
+                globals = pugspeak_special_to_struct(globalsStack[array_length(globalsStack)-1]);
+            }
         });
         f.setGlobals = method(sharedData, function (globalInst) {
             globals = pugspeak_special_to_struct(globalInst);
+            globalsStack = [globals];
         });
         f.resetGlobals = method(sharedData, function() {
-            globals = pugspeak_special_to_struct(globalsOriginal);
+            globals = __Global();
         });
         f.getGlobals = method(sharedData, function () { return globals });
         
