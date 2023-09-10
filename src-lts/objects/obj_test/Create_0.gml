@@ -1,5 +1,4 @@
 var _string = @'
-global = {}
 global.q = "meow"
 Log("outside")
 var thing = use Builder {
@@ -44,6 +43,8 @@ Catspeak.interface.exposeFunction("Builder", function()
         return contextPop();
     }
 });
+
+Catspeak.interface.exposeConstant("global", __Global());
 
 var _asg = Catspeak.parseString(_string);
 func = Catspeak.compileGML(_asg);
