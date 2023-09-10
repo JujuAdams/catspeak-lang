@@ -6,7 +6,10 @@
 function PugspeakClassEnvironment() constructor {
     self.keywords = undefined;
     self.interface = new PugspeakClassForeignInterface();
-
+    
+    globalVars = {};
+    interface.exposeConstant("global", globalVars);
+    
     /// Applies list of presets to this Pugspeak environment. These changes
     /// cannot be undone, so only choose presets you really need.
     ///
@@ -67,7 +70,7 @@ function PugspeakClassEnvironment() constructor {
     static parse = function (buff, offset=undefined, size=undefined) {
         // tokenise() will do argument validation
         var lexer = tokenise(buff, offset, size);
-        var builder = new PugspeakClassIRBuilder();
+        var builder = new PugspeakClassIRBuilder(self);
         var parser = new PugspeakClassParser(lexer, builder);
         var moreToParse;
         do {

@@ -34,19 +34,18 @@ Pugspeak.interface.exposeFunction("Log", function(_value)
 
 Pugspeak.interface.exposeFunction("Builder", function()
 {
-    PugspeakPushScope(new ClassTest());
+    PugspeakScopePush(new ClassTest());
     
     return function()
     {
         var _scope = PugspeakScope();
-        PugspeakPopScope();
+        PugspeakScopePop();
         return _scope;
     }
 });
 
-Pugspeak.interface.exposeConstant("global", PugspeakGetGlobal());
-
 var _asg = Pugspeak.parseString(_string);
 func = Pugspeak.compileGML(_asg);
 
-show_debug_message(func());
+show_debug_message("func() return " + string(func()));
+show_debug_message("globalVars = " + string(Pugspeak.globalVars));

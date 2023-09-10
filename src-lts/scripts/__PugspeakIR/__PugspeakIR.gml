@@ -8,7 +8,8 @@
 /// Handles the generation and optimisation of a syntax graph.
 ///
 /// @unstable
-function PugspeakClassIRBuilder() constructor {
+function PugspeakClassIRBuilder(_environment) constructor {
+    self.environment = _environment;
     self.functions = [];
     self.topLevelFunctions = [];
     self.functionScopes = __pugspeak_alloc_ds_list(self);
@@ -22,6 +23,7 @@ function PugspeakClassIRBuilder() constructor {
         return {
             functions : functions,
             entryPoints : topLevelFunctions,
+            environment : environment,
         };
     };
 

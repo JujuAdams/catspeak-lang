@@ -325,8 +325,9 @@ function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
     self.functions = asg.functions;
     
     self.sharedData = {
-        execScope : PugspeakGetGlobal(),
+        execScope : asg.environment.globalVars,
         execScopeStack : [],
+        globalVars : asg.environment.globalVars,
     };
     
     //# feather disable once GM2043
@@ -412,7 +413,7 @@ function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
             if (array_length(execScopeStack) > 0) array_pop(execScopeStack);
             
             if (array_length(execScopeStack) <= 0) {
-                execScope = PugspeakGetGlobal();
+                execScope = globalVars;
             } else {
                 execScope = pugspeak_special_to_struct(execScopeStack[array_length(execScopeStack)-1]);
             }
@@ -422,10 +423,12 @@ function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
             execScopeStack = [execScope];
         });
         f.resetExecScope = method(sharedData, function() {
-            execScope = PugspeakGetGlobal();
+            execScope = globalVars;
         });
         f.getExecScope = method(sharedData, function () { return execScope });
-        
+        f.getGlobalVars = method(sharedData, function () {
+            return globalVars;
+        });
     };
 
     /// @ignore

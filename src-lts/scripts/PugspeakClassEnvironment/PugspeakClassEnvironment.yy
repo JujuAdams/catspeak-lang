@@ -5,7 +5,7 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Advanced",
-    "path": "folders/Pugspeak/Advanced.yy",
+    "name": "Really Advanced",
+    "path": "folders/Pugspeak/Advanced/Really Advanced.yy",
   },
 }
