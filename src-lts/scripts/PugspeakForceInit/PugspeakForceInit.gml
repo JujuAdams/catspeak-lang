@@ -17,20 +17,6 @@
 /// The compiler version, should be updated before each release.
 #macro PUGSPEAK_VERSION "3.0.0"
 
-/// Whether sanity checks and unsafe developer features are enabled at runtime.
-/// You can override this using a configuration macro:
-///
-/// ```gml
-/// #macro Release:PUGSPEAK_DEBUG_MODE false
-/// ```
-///
-/// NOTE: Disabling this will give a significant performance boost, but may
-///       result in undefined behaviour or cryptic error messages if an error
-///       occurs. If you are getting errors in your game, and you suspect
-///       Pugspeak may be the cause, make sure to re-enable debug mode if you
-///       have it disabled.
-#macro PUGSPEAK_DEBUG_MODE (GM_build_type == "run")
-
 #macro Pugspeak  (__PugspeakGMLGlobal().__environment)
 
 /// Makes sure that all Pugspeak global variables are initialised.
@@ -42,7 +28,7 @@
 ///       forget this function exists.
 ///
 /// @return {Bool}
-function pugspeak_force_init() {
+function PugspeakForceInit() {
     static initialised = false;
     static _global = __PugspeakGMLGlobal();
     if (initialised) {
@@ -65,4 +51,4 @@ function pugspeak_force_init() {
     return true;
 }
 
-pugspeak_force_init();
+PugspeakForceInit();

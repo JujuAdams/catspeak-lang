@@ -99,10 +99,10 @@ function __pugspeak_error_unimplemented(feature) {
 /// @ignore
 function __pugspeak_check_init() {
     gml_pragma("forceinline");
-    if (pugspeak_force_init()) {
+    if (PugspeakForceInit()) {
         __pugspeak_error(
             "Pugspeak was not initialised at this point, make sure to call ",
-            "'pugspeak_force_init' at the start of your code if you are ",
+            "'PugspeakForceInit' at the start of your code if you are ",
             "using Pugspeak inside of a script resource"
         );
     }

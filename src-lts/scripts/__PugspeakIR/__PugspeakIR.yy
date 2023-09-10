@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_pugspeak_parser",
+  "name": "__PugspeakIR",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "compiler",
-    "path": "folders/Pugspeak/compiler.yy",
+    "name": "Compiler",
+    "path": "folders/Pugspeak/(System)/Compiler.yy",
   },
 }

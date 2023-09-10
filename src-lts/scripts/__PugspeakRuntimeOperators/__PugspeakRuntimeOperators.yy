@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_pugspeak_environment",
+  "name": "__PugspeakRuntimeOperators",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Pugspeak",
-    "path": "folders/Pugspeak.yy",
+    "name": "Runtime",
+    "path": "folders/Pugspeak/(System)/Runtime.yy",
   },
 }

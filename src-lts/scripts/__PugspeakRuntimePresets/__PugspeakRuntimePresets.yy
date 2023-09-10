@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_pugspeak_codegen",
+  "name": "__PugspeakRuntimePresets",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "compiler",
-    "path": "folders/Pugspeak/compiler.yy",
+    "name": "Runtime",
+    "path": "folders/Pugspeak/(System)/Runtime.yy",
   },
 }

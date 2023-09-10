@@ -513,7 +513,7 @@ function __pugspeak_preset_unsafe(ffi) {
 ///
 /// @example
 ///   Adds a new preset called "my-custom" which, when applied, will
-///   add an `rgb` function to the given [PugspeakEnvironment].
+///   add an `rgb` function to the given [PugspeakClassEnvironment].
 ///
 /// ```gml
 /// pugspeak_preset_add("my-custom", function (ffi, keywords) {

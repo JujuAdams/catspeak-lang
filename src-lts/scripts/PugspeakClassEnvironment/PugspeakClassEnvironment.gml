@@ -3,7 +3,7 @@
 //# feather use syntax-errors
 
 /// Packages all common Pugspeak features into a neat, configurable box.
-function PugspeakEnvironment() constructor {
+function PugspeakClassEnvironment() constructor {
     self.keywords = undefined;
     self.interface = new PugspeakForeignInterface();
 
@@ -239,5 +239,5 @@ function pugspeak_special_to_struct(gmlSpecial) {
 /// @ignore
 function __pugspeak_init_engine() {
     // initialise the default Pugspeak env
-    Pugspeak = new PugspeakEnvironment();
+    Pugspeak = new PugspeakClassEnvironment();
 }

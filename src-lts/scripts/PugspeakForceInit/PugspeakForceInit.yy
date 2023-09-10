@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_pugspeak_location",
+  "name": "PugspeakForceInit",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "common",
-    "path": "folders/Pugspeak/common.yy",
+    "name": "Pugspeak",
+    "path": "folders/Pugspeak.yy",
   },
 }
