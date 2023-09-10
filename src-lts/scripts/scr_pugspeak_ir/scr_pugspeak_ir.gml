@@ -5,11 +5,6 @@
 
 //# feather use syntax-errors
 
-/// Old builder.
-///
-/// @deprecated
-function PugspeakASGBuilder() : PugspeakIRBuilder() constructor { }
-
 /// Handles the generation and optimisation of a syntax graph.
 ///
 /// @unstable

@@ -198,96 +198,12 @@ function PugspeakEnvironment() constructor {
         }
     };
 
-    /// Used to add a new constant to this environment.
-    ///
-    /// @deprecated
-    ///   Use `interface.exposeConstant` instead.
-    ///
-    /// @param {String} name
-    ///   The name of the constant as it will appear in Pugspeak.
-    ///
-    /// @param {Any} value
-    ///   The constant value to add.
-    ///
-    /// @param {Any} ...
-    ///   Additional arguments in the same name-value format.
-    static addConstant = function () {
-        for (var i = 0; i < argument_count; i += 2) {
-            interface.exposeConstant(argument[i + 0], argument[i + 1]);
-        }
-    };
-
-    /// Used to add a new method to this environment.
-    ///
-    /// @deprecated
-    ///   Use `interface.exposeMethod` instead.
-    ///
-    /// @param {String} name
-    ///   The name of the function as it will appear in Pugspeak.
-    ///
-    /// @param {Function} func
-    ///   The script or function to add.
-    ///
-    /// @param {Any} ...
-    ///   Additional arguments in the same name-value format.
-    static addMethod = function () {
-        for (var i = 0; i < argument_count; i += 2) {
-            interface.exposeMethod(argument[i + 0], argument[i + 1]);
-        }
-    };
-
-    /// Used to add a new unbound function to this environment.
-    ///
-    /// @deprecated
-    ///   Use `interface.exposeFunction` instead.
-    ///
-    /// @param {String} name
-    ///   The name of the function as it will appear in Pugspeak.
-    ///
-    /// @param {Function} func
-    ///   The script or function to add.
-    ///
-    /// @param {Any} ...
-    ///   Additional arguments in the same name-value format.
-    static addFunction = function () {
-        for (var i = 0; i < argument_count; i += 2) {
-            interface.exposeFunction(argument[i + 0], argument[i + 1]);
-        }
-    };
-
     /// @ignore
     static __removeInterface = function () {
         for (var i = 0; i < argument_count; i += 1) {
             interface.addBanList([argument[i]]);
         }
     };
-
-    /// Used to remove an existing constant from this environment.
-    ///
-    /// @deprecated
-    ///   Use `interface.addBanList` instead.
-    ///
-    /// NOTE: ALthough you can use this to remove functions, it's
-    ///       recommended to use [removeFunction] for that purpose instead.
-    ///
-    /// @param {String} name
-    ///   The name of the constant to remove.
-    ///
-    /// @param {String} ...
-    ///   Additional constants to remove.
-    static removeConstant = __removeInterface;
-
-    /// Used to remove an existing function from this environment.
-    ///
-    /// @deprecated
-    ///   Use `interface.addBanList` instead.
-    ///
-    /// @param {String} name
-    ///   The name of the function to remove.
-    ///
-    /// @param {String} ...
-    ///   Additional functions to remove.
-    static removeFunction = __removeInterface;
 }
 
 /// A usability function for converting special GML constants, such as

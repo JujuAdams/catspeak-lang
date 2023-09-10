@@ -14,7 +14,6 @@
     {"id":{"name":"scr_pugspeak_init","path":"scripts/scr_pugspeak_init/scr_pugspeak_init.yy",},"order":3,},
     {"id":{"name":"obj_test","path":"objects/obj_test/obj_test.yy",},"order":5,},
     {"id":{"name":"scr_pugspeak_operators","path":"scripts/scr_pugspeak_operators/scr_pugspeak_operators.yy",},"order":0,},
-    {"id":{"name":"scr_pugspeak_compatibility","path":"scripts/scr_pugspeak_compatibility/scr_pugspeak_compatibility.yy",},"order":5,},
     {"id":{"name":"scr_pugspeak_location","path":"scripts/scr_pugspeak_location/scr_pugspeak_location.yy",},"order":1,},
     {"id":{"name":"PugspeakScope","path":"scripts/PugspeakScope/PugspeakScope.yy",},"order":8,},
     {"id":{"name":"ClassTest","path":"scripts/ClassTest/ClassTest.yy",},"order":4,},
