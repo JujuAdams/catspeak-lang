@@ -340,27 +340,6 @@ function PugspeakIRBuilder() constructor {
         });
     };
 
-    /// Emits the instruction to call a constructor function with a set of
-    /// arguments.
-    ///
-    /// @param {Struct} callee
-    ///   The instruction containing the function to call.
-    ///
-    /// @param {Struct} args
-    ///   The the arguments to pass into the function call.
-    ///
-    /// @param {Real} [location]
-    ///   The source location of this value term.
-    ///
-    /// @return {Struct}
-    static createCallNew = function (callee, args, location=undefined) {
-        // __createTerm() will do argument validation
-        return __createTerm(PugspeakTerm.CALL_NEW, location, {
-            callee : callee,
-            args : args,
-        });
-    };
-
     /// Searches a for a variable with the supplied name and emits a get
     /// instruction for it.
     ///

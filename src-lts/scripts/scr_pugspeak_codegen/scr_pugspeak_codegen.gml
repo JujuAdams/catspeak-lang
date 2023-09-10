@@ -817,36 +817,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
     /// @param {Struct} ctx
     /// @param {Struct} term
     /// @return {Function}
-    static __compileCallNew = function (ctx, term) {
-        // NOTE :: blehhh ugly code pls pls refactor fr fr ong no cap
-        if (PUGSPEAK_DEBUG_MODE) {
-            __pugspeak_check_arg_struct("term", term,
-                "callee", undefined,
-                "args", undefined
-            );
-            __pugspeak_check_arg_struct("term.callee", term.callee,
-                "type", is_numeric
-            );
-        }
-        var args = term.args;
-        var argCount = array_length(args);
-        var exprs = array_create(argCount);
-        for (var i = 0; i < argCount; i += 1) {
-            exprs[@ i] = __compileTerm(ctx, args[i]);
-        }
-        var callee = __compileTerm(ctx, term.callee);
-        return method({
-            dbgError : __dbgTerm(term.callee, "is not constructible"),
-            callee : callee,
-            args : exprs,
-        }, __pugspeak_expr_call_new__);
-    };
-
-    /// @ignore
-    ///
-    /// @param {Struct} ctx
-    /// @param {Struct} term
-    /// @return {Function}
     static __compileSet = function (ctx, term) {
         if (PUGSPEAK_DEBUG_MODE) {
             __pugspeak_check_arg_struct("term", term,
@@ -1046,7 +1016,6 @@ function PugspeakGMLCompiler(asg, interface=undefined) constructor {
         db[@ PugspeakTerm.OP_BINARY] = __compileOpBinary;
         db[@ PugspeakTerm.OP_UNARY] = __compileOpUnary;
         db[@ PugspeakTerm.CALL] = __compileCall;
-        db[@ PugspeakTerm.CALL_NEW] = __compileCallNew;
         db[@ PugspeakTerm.SET] = __compileSet;
         db[@ PugspeakTerm.INDEX] = __compileIndex;
         db[@ PugspeakTerm.NAKED] = __compileGlobal;
