@@ -901,7 +901,6 @@ function __catspeak_keywords_create() {
     var keywords = { };
     keywords[$ "--"] = CatspeakToken.COMMENT;
     keywords[$ ";"] = CatspeakToken.SEMICOLON;
-    keywords[$ "..."] = CatspeakToken.WHITESPACE; // legacy
     keywords[$ ":"] = CatspeakToken.COLON;
     keywords[$ ","] = CatspeakToken.COMMA;
     keywords[$ "."] = CatspeakToken.DOT;
