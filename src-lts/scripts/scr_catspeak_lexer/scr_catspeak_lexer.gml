@@ -931,8 +931,6 @@ function __catspeak_keywords_create() {
     keywords[$ "|"] = CatspeakToken.BITWISE_OR;
     keywords[$ "and"] = CatspeakToken.AND;
     keywords[$ "or"] = CatspeakToken.OR;
-    keywords[$ "|>"] = CatspeakToken.PIPE_RIGHT;
-    keywords[$ "<|"] = CatspeakToken.PIPE_LEFT;
     keywords[$ "do"] = CatspeakToken.DO;
     keywords[$ "if"] = CatspeakToken.IF;
     keywords[$ "else"] = CatspeakToken.ELSE;

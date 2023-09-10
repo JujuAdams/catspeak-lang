@@ -255,36 +255,13 @@ function CatspeakParser(lexer, builder) constructor {
             if (peeked == CatspeakToken.AND) {
                 lexer.next();
                 var lhs = result;
-                var rhs = __parseOpPipe();
+                var rhs = __parseOpBitwise();
                 result = asg.createAnd(lhs, rhs, lexer.getLocation());
             } else if (peeked == CatspeakToken.OR) {
                 lexer.next();
                 var lhs = result;
-                var rhs = __parseOpPipe();
+                var rhs = __parseOpBitwise();
                 result = asg.createOr(lhs, rhs, lexer.getLocation());
-            } else {
-                return result;
-            }
-        }
-    };
-
-    /// @ignore
-    ///
-    /// @return {Struct}
-    static __parseOpPipe = function () {
-        var result = __parseOpBitwise();
-        while (true) {
-            var peeked = lexer.peek();
-            if (peeked == CatspeakToken.PIPE_RIGHT) {
-                lexer.next();
-                var lhs = result;
-                var rhs = __parseOpBitwise();
-                result = asg.createCall(rhs, [lhs], lexer.getLocation());
-            } else if (peeked == CatspeakToken.PIPE_LEFT) {
-                lexer.next();
-                var lhs = result;
-                var rhs = __parseOpBitwise();
-                result = asg.createCall(lhs, [rhs], lexer.getLocation());
             } else {
                 return result;
             }
