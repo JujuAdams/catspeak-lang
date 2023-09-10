@@ -9,6 +9,7 @@
     {"id":{"name":"scr_pugspeak_lexer","path":"scripts/scr_pugspeak_lexer/scr_pugspeak_lexer.yy",},"order":2,},
     {"id":{"name":"rm_testing","path":"rooms/rm_testing/rm_testing.yy",},"order":10,},
     {"id":{"name":"__PugspeakGlobal","path":"scripts/__PugspeakGlobal/__PugspeakGlobal.yy",},"order":10,},
+    {"id":{"name":"__PugspeakConfig","path":"scripts/__PugspeakConfig/__PugspeakConfig.yy",},"order":11,},
     {"id":{"name":"scr_pugspeak_alloc","path":"scripts/scr_pugspeak_alloc/scr_pugspeak_alloc.yy",},"order":0,},
     {"id":{"name":"scr_pugspeak_init","path":"scripts/scr_pugspeak_init/scr_pugspeak_init.yy",},"order":3,},
     {"id":{"name":"obj_test","path":"objects/obj_test/obj_test.yy",},"order":5,},

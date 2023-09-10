@@ -1436,8 +1436,12 @@ function __pugspeak_expr_index_get__() {
     var key_ = key();
     if (is_array(collection_)) {
         return collection_[key_];
-    } else if (__pugspeak_is_withable(collection_)) {
-        return collection_[$ key_];
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_GETTER_NAME)) {
+            return collection_.PUGSPEAK_GETTER(key_);
+        } else {
+            return collection_[$ key_];
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1451,8 +1455,12 @@ function __pugspeak_expr_index_set__() {
     var value_ = value();
     if (is_array(collection_)) {
         collection_[@ key_] = value_;
-    } else if (__pugspeak_is_withable(collection_)) {
-        collection_[$ key_] = value_;
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+            collection_.PUGSPEAK_SETTER(key_, value_);
+        } else {
+            collection_[$ key_] = value_;
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1466,8 +1474,22 @@ function __pugspeak_expr_index_set_mult__() {
     var value_ = value();
     if (is_array(collection_)) {
         collection_[@ key_] *= value_;
-    } else if (__pugspeak_is_withable(collection_)) {
-        collection_[$ key_] *= value_;
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_GETTER_NAME)) {
+            if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+                //Getter + setter
+                collection_.PUGSPEAK_SETTER(key_, collection_.PUGSPEAK_GETTER(key_) * value_);
+            } else {
+                //Only a getter
+                collection_[$ key_] = collection_.PUGSPEAK_GETTER(key_) * value_;
+            }
+        } else if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+            //Only a setter
+            collection_.PUGSPEAK_SETTER(key_, collection_[$ key_] * value_);
+        } else {
+            //No getter or setter
+            collection_[$ key_] *= value_;
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1481,8 +1503,22 @@ function __pugspeak_expr_index_set_div__() {
     var value_ = value();
     if (is_array(collection_)) {
         collection_[@ key_] /= value_;
-    } else if (__pugspeak_is_withable(collection_)) {
-        collection_[$ key_] /= value_;
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_GETTER_NAME)) {
+            if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+                //Getter + setter
+                collection_.PUGSPEAK_SETTER(key_, collection_.PUGSPEAK_GETTER(key_) / value_);
+            } else {
+                //Only a getter
+                collection_[$ key_] = collection_.PUGSPEAK_GETTER(key_) / value_;
+            }
+        } else if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+            //Only a setter
+            collection_.PUGSPEAK_SETTER(key_, collection_[$ key_] / value_);
+        } else {
+            //No getter or setter
+            collection_[$ key_] /= value_;
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1496,8 +1532,22 @@ function __pugspeak_expr_index_set_sub__() {
     var value_ = value();
     if (is_array(collection_)) {
         collection_[@ key_] -= value_;
-    } else if (__pugspeak_is_withable(collection_)) {
-        collection_[$ key_] -= value_;
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_GETTER_NAME)) {
+            if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+                //Getter + setter
+                collection_.PUGSPEAK_SETTER(key_, collection_.PUGSPEAK_GETTER(key_) - value_);
+            } else {
+                //Only a getter
+                collection_[$ key_] = collection_.PUGSPEAK_GETTER(key_) - value_;
+            }
+        } else if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+            //Only a setter
+            collection_.PUGSPEAK_SETTER(key_, collection_[$ key_] - value_);
+        } else {
+            //No getter or setter
+            collection_[$ key_] -= value_;
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1511,8 +1561,22 @@ function __pugspeak_expr_index_set_plus__() {
     var value_ = value();
     if (is_array(collection_)) {
         collection_[@ key_] += value_;
-    } else if (__pugspeak_is_withable(collection_)) {
-        collection_[$ key_] += value_;
+    } else if (is_struct(collection_)) {
+        if (variable_struct_exists(collection_, PUGSPEAK_GETTER_NAME)) {
+            if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+                //Getter + setter
+                collection_.PUGSPEAK_SETTER(key_, collection_.PUGSPEAK_GETTER(key_) + value_);
+            } else {
+                //Only a getter
+                collection_[$ key_] = collection_.PUGSPEAK_GETTER(key_) + value_;
+            }
+        } else if (variable_struct_exists(collection_, PUGSPEAK_SETTER_NAME)) {
+            //Only a setter
+            collection_.PUGSPEAK_SETTER(key_, collection_[$ key_] + value_);
+        } else {
+            //No getter or setter
+            collection_[$ key_] += value_;
+        }
     } else {
         __pugspeak_error_got(dbgError, collection_);
     }
@@ -1521,37 +1585,107 @@ function __pugspeak_expr_index_set_plus__() {
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_get__() {
-    return shared.execScope[$ name];
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_GETTER_NAME)) {
+        return target.PUGSPEAK_GETTER(name);
+    } else {
+        return target[$ name];
+    }
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_set__() {
-    shared.execScope[$ name] = value();
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+        return target.PUGSPEAK_SETTER(name, value());
+    } else {
+        return target[$ name] = value();
+    }
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_set_mult__() {
-    shared.execScope[$ name] *= value();
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_GETTER_NAME)) {
+        if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+            //Getter + setter
+            target.PUGSPEAK_SETTER(name, target.PUGSPEAK_GETTER(name) * value());
+        } else {
+            //Only a getter
+            target[$ name] = target.PUGSPEAK_GETTER(name) * value();
+        }
+    } else if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+        //Only a setter
+        target.PUGSPEAK_SETTER(name, target[$ name] * value());
+    } else {
+        //No getter or setter
+        target[$ name] *= value();
+    }
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_set_div__() {
-    shared.execScope[$ name] /= value();
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_GETTER_NAME)) {
+        if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+            //Getter + setter
+            target.PUGSPEAK_SETTER(name, target.PUGSPEAK_GETTER(name) / value());
+        } else {
+            //Only a getter
+            target[$ name] = target.PUGSPEAK_GETTER(name) / value();
+        }
+    } else if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+        //Only a setter
+        target.PUGSPEAK_SETTER(name, target[$ name] / value());
+    } else {
+        //No getter or setter
+        target[$ name] /= value();
+    }
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_set_sub__() {
-    shared.execScope[$ name] -= value();
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_GETTER_NAME)) {
+        if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+            //Getter + setter
+            target.PUGSPEAK_SETTER(name, target.PUGSPEAK_GETTER(name) - value());
+        } else {
+            //Only a getter
+            target[$ name] = target.PUGSPEAK_GETTER(name) - value();
+        }
+    } else if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+        //Only a setter
+        target.PUGSPEAK_SETTER(name, target[$ name] - value());
+    } else {
+        //No getter or setter
+        target[$ name] -= value();
+    }
 }
 
 /// @ignore
 /// @return {Any}
 function __pugspeak_expr_scope_set_plus__() {
-    shared.execScope[$ name] += value();
+    var target = shared.execScope;
+    if (variable_struct_exists(target, PUGSPEAK_GETTER_NAME)) {
+        if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+            //Getter + setter
+            target.PUGSPEAK_SETTER(name, target.PUGSPEAK_GETTER(name) + value());
+        } else {
+            //Only a getter
+            target[$ name] = target.PUGSPEAK_GETTER(name) + value();
+        }
+    } else if (variable_struct_exists(target, PUGSPEAK_SETTER_NAME)) {
+        //Only a setter
+        target.PUGSPEAK_SETTER(name, target[$ name] + value());
+    } else {
+        //No getter or setter
+        target[$ name] += value();
+    }
 }
 
 /// @ignore

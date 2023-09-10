@@ -1,0 +1,4 @@
+#macro PUGSPEAK_SETTER_NAME  "Set"
+#macro PUGSPEAK_GETTER_NAME  "Get"
+#macro PUGSPEAK_SETTER       Set
+#macro PUGSPEAK_GETTER       Get
