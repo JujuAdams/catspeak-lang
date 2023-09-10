@@ -981,6 +981,15 @@ function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
     /// @param {Struct} ctx
     /// @param {Struct} term
     /// @return {Function}
+    static __compileSelf = function (ctx, term) {
+        return method(sharedData, __pugspeak_expr_self__);
+    };
+
+    /// @ignore
+    ///
+    /// @param {Struct} ctx
+    /// @param {Struct} term
+    /// @return {Function}
     static __compileTerm = function (ctx, term) {
         if (PUGSPEAK_DEBUG_MODE) {
             __pugspeak_check_arg_struct("term", term,
@@ -1015,6 +1024,7 @@ function PugspeakClassGMLCompiler(asg, interface=undefined) constructor {
         db[@ PugspeakTerm.NAKED] = __compileGlobal;
         db[@ PugspeakTerm.LOCAL] = __compileLocal;
         db[@ PugspeakTerm.FUNCTION] = __compileFunctionExpr;
+        db[@ PugspeakTerm.SELF] = __compileSelf;
         db[@ PugspeakTerm.AND] = __compileAnd;
         db[@ PugspeakTerm.OR] = __compileOr;
         return db;
@@ -1689,6 +1699,12 @@ function __pugspeak_expr_local_set_sub__() {
 /// @return {Any}
 function __pugspeak_expr_local_set_plus__() {
     locals[@ idx] += value();
+}
+
+/// @ignore
+/// @return {Any}
+function __pugspeak_expr_self__() {
+    return execScope;
 }
 
 /// @ignore

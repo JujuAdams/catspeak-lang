@@ -1,9 +1,12 @@
 var _string = @'
+Log(self)
 global.q = "meow"
+Log(self)
 
 Log("outside")
 let thing = use Builder {
     x = 42
+    Log(self)
     MethodTest("wow")
     Log("inside A")
     

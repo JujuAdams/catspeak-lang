@@ -460,6 +460,17 @@ function PugspeakClassIRBuilder(_environment) constructor {
         });
     };
 
+    /// Creates an instruction for accessing the caller `self`.
+    ///
+    /// @param {Real} [location]
+    ///   The source location of this term.
+    ///
+    /// @return {Struct}
+    static createSelf = function (location=undefined) {
+        // __createTerm() will do argument validation
+        return __createTerm(PugspeakTerm.SELF, location, { });
+    };
+
     /// Attempts to assign a right-hand-side value to a left-hand-side target.
     ///
     /// NOTE: Either terms A or B could be optimised or modified, therefore
@@ -764,7 +775,8 @@ function __pugspeak_term_is_pure(kind) {
     return kind == PugspeakTerm.VALUE ||
             kind == PugspeakTerm.LOCAL ||
             kind == PugspeakTerm.NAKED ||
-            kind == PugspeakTerm.FUNCTION;
+            kind == PugspeakTerm.FUNCTION ||
+            kind == PugspeakTerm.SELF;
 }
 
 /// @ignore
@@ -784,6 +796,8 @@ function __pugspeak_term_get_terminal(term) {
             );
         }
         return term.name;
+    } else if (term.type == PugspeakTerm.SELF) {
+        return "self";
     } else if (term.type == PugspeakTerm.VALUE) {
         if (PUGSPEAK_DEBUG_MODE) {
             __pugspeak_check_arg_struct("term", term,
@@ -818,5 +832,6 @@ enum PugspeakTerm {
     LOCAL,     //18
     NAKED,     //29
     FUNCTION,  //20
-    __SIZE__   //21
+    SELF,      //21
+    __SIZE__   //22
 }

@@ -458,6 +458,9 @@ function PugspeakClassParser(lexer, builder) constructor {
         } else if (peeked == PugspeakToken.IDENT) {
             lexer.next();
             return asg.createGet(lexer.getValue(), lexer.getLocation());
+        } else if (peeked == PugspeakToken.SELF) {
+            lexer.next();
+            return asg.createSelf(lexer.getLocation());
         } else {
             return __parseGrouping();
         }

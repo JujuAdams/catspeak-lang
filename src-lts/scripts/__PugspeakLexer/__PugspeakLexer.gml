@@ -120,6 +120,8 @@ enum PugspeakToken {
     NEW,
     /// The `impl` keyword.
     IMPL,
+    /// The `self` keyword.
+    SELF,
     /// The `params` keyword.
     PARAMS,
     /// Represents a variable name.
@@ -945,6 +947,7 @@ function __pugspeak_keywords_create() {
     keywords[$ "break"] = PugspeakToken.BREAK;
     keywords[$ "continue"] = PugspeakToken.CONTINUE;
     keywords[$ "return"] = PugspeakToken.RETURN;
+    keywords[$ "self"] = PugspeakToken.SELF;
     return keywords;
 }
 
