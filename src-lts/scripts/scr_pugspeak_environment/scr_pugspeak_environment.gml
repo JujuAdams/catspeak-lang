@@ -5,7 +5,7 @@
 /// Packages all common Pugspeak features into a neat, configurable box.
 function PugspeakEnvironment() constructor {
     self.keywords = undefined;
-    self.interface = undefined;
+    self.interface = new PugspeakForeignInterface();
 
     /// Applies list of presets to this Pugspeak environment. These changes
     /// cannot be undone, so only choose presets you really need.
@@ -18,16 +18,8 @@ function PugspeakEnvironment() constructor {
     static applyPreset = function () {
         for (var i = 0; i < argument_count; i += 1) {
             var presetFunc = __pugspeak_preset_get(argument[i]);
-            presetFunc(getInterface());
+            presetFunc(interface);
         }
-    };
-
-    /// Returns the foreign interface used by this Pugspeak environment. This
-    /// is where all external GML functions and constants are exposed to the
-    /// Pugspeak runtime environment.
-    static getInterface = function () {
-        interface ??= new PugspeakForeignInterface();
-        return interface;
     };
 
     /// Creates a new [PugspeakLexer] from the supplied buffer, overriding
@@ -220,9 +212,8 @@ function PugspeakEnvironment() constructor {
     /// @param {Any} ...
     ///   Additional arguments in the same name-value format.
     static addConstant = function () {
-        var interface_ = getInterface();
         for (var i = 0; i < argument_count; i += 2) {
-            interface_.exposeConstant(argument[i + 0], argument[i + 1]);
+            interface.exposeConstant(argument[i + 0], argument[i + 1]);
         }
     };
 
@@ -240,9 +231,8 @@ function PugspeakEnvironment() constructor {
     /// @param {Any} ...
     ///   Additional arguments in the same name-value format.
     static addMethod = function () {
-        var interface_ = getInterface();
         for (var i = 0; i < argument_count; i += 2) {
-            interface_.exposeMethod(argument[i + 0], argument[i + 1]);
+            interface.exposeMethod(argument[i + 0], argument[i + 1]);
         }
     };
 
@@ -260,17 +250,15 @@ function PugspeakEnvironment() constructor {
     /// @param {Any} ...
     ///   Additional arguments in the same name-value format.
     static addFunction = function () {
-        var interface_ = getInterface();
         for (var i = 0; i < argument_count; i += 2) {
-            interface_.exposeFunction(argument[i + 0], argument[i + 1]);
+            interface.exposeFunction(argument[i + 0], argument[i + 1]);
         }
     };
 
     /// @ignore
     static __removeInterface = function () {
-        var interface_ = getInterface();
         for (var i = 0; i < argument_count; i += 1) {
-            interface_.addBanList([argument[i]]);
+            interface.addBanList([argument[i]]);
         }
     };
 

@@ -26,7 +26,6 @@ Log(global)
 return thing
 ';
 
-Pugspeak.getInterface();
 Pugspeak.interface.exposeFunction("Log", function(_value)
 {
     //show_debug_message(debug_get_callstack());
