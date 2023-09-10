@@ -1341,11 +1341,11 @@ function __catspeak_expr_while__() {
 function __catspeak_expr_use__() {
     var body_ = body;
     var open = condition();
-    if (!__catspeak_is_callable(open)) {
+    if (!is_method(open)) {
         __catspeak_error_got(dbgError, open);
     }
     var close = open();
-    if (!__catspeak_is_callable(close)) {
+    if (!is_method(close)) {
         __catspeak_error_got(dbgError, close);
     }
     var result;
@@ -1421,7 +1421,7 @@ function __catspeak_expr_call_method__() {
         // TODO :: bad error message
         __catspeak_error_got(dbgError, collection_);
     }
-    if (!__catspeak_is_callable(callee_)) {
+    if (!is_method(callee_)) {
         __catspeak_error_got(dbgError, callee_);
     }
     var args_;
@@ -1449,7 +1449,7 @@ function __catspeak_expr_call_method__() {
 /// @return {Any}
 function __catspeak_expr_call__() {
     var callee_ = callee();
-    if (!__catspeak_is_callable(callee_)) {
+    if (!is_method(callee_)) {
         __catspeak_error_got(dbgError, callee_);
     }
     var args_;
@@ -1477,7 +1477,7 @@ function __catspeak_expr_call__() {
 /// @return {Any}
 function __catspeak_expr_call_new__() {
     var callee_ = callee();
-    if (!__catspeak_is_callable(callee_)) {
+    if (!is_method(callee_)) {
         __catspeak_error_got(dbgError, callee_);
     }
     // TODO :: optimise :: SUPER SLOW, DO THIS AT COMPILE TIME
@@ -1602,7 +1602,7 @@ function __catspeak_expr_index_set_plus__() {
 /// @return {Any}
 function __catspeak_expr_property_get__() {
     var property_ = property();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_();
@@ -1613,7 +1613,7 @@ function __catspeak_expr_property_get__() {
 function __catspeak_expr_property_set__() {
     var property_ = property();
     var value_ = value();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_(value_);
@@ -1624,7 +1624,7 @@ function __catspeak_expr_property_set__() {
 function __catspeak_expr_property_set_mult__() {
     var property_ = property();
     var value_ = value();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_(property_() * value_);
@@ -1635,7 +1635,7 @@ function __catspeak_expr_property_set_mult__() {
 function __catspeak_expr_property_set_div__() {
     var property_ = property();
     var value_ = value();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_(property_() / value_);
@@ -1646,7 +1646,7 @@ function __catspeak_expr_property_set_div__() {
 function __catspeak_expr_property_set_sub__() {
     var property_ = property();
     var value_ = value();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_(property_() - value_);
@@ -1657,7 +1657,7 @@ function __catspeak_expr_property_set_sub__() {
 function __catspeak_expr_property_set_plus__() {
     var property_ = property();
     var value_ = value();
-    if (!__catspeak_is_callable(property_)) {
+    if (!is_method(property_)) {
         __catspeak_error_got(dbgError, property_);
     }
     return property_(property_() + value_);
